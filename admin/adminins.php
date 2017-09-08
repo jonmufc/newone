@@ -33,8 +33,6 @@ $(document).ready(function(){
 
 		data = data + "&type=add";
 
-		//alert(data);
-
 		if (chk_val == "0") {
 			alert("กรุณากรอกข้อมูลให้ครบ");
 			return false;
@@ -42,7 +40,7 @@ $(document).ready(function(){
 
 			$.ajax({
 				type		:	"POST",
-				url		:	"category_pro.php",
+				url		:	"admin_pro.php",
 				data		:	data,
 				success		:	function(html) {
 
@@ -52,7 +50,7 @@ $(document).ready(function(){
 								var arr_html = html.split("|");
 								if (arr_html[0] != "0") {
 									alert(arr_html[1]);
-									window.location = "category.php";
+									window.location = "admin.php";
 								} else {
 									alert(arr_html[1]);
 								}
@@ -73,7 +71,7 @@ $(document).ready(function(){
       <!-- Page Title Zone -->
       <div class="page-title">
          <div class="title_left">
-            <h3>เพิ่มข้อมูลหมวดหมู่บทความ</h3>
+            <h3>เพิ่มผู้ดูแลระบบ</h3>
          </div>
 
          <div class="title_right">
@@ -94,7 +92,7 @@ $(document).ready(function(){
       <div class="col-md-12 col-sm-12 col-xs-12">
          <div class="x_panel">
             <!-- <div class="x_title">
-               <h2>เพิ่มข้อมูลหมวดหมู่บทความ</h2>
+               <h2>เพิ่มผู้ดูแลระบบ</h2>
 
                <div class="clearfix"></div>
             </div> -->
@@ -103,22 +101,21 @@ $(document).ready(function(){
 					<div id="dv_formadd">
 					<form class="form-horizontal" role="form" id="frmadd">
 					  <div class="form-group">
-					    <label class="control-label col-sm-5" for="category">ชื่อหมวดหมู่บทความ:</label>
+					    <label class="control-label col-sm-5" for="username">Username:</label>
 					    <div class="col-sm-4">
-					      <input type="textbox" class="form-control" id="category" placeholder="Enter Category" name="category" />
+					      <input type="textbox" class="form-control" id="username" placeholder="Enter username" name="username" />
 					    </div>
 					  </div>
 					  <div class="form-group">
-					    <label class="control-label col-sm-5" for="pwd">สถานะหมวดหมู่บทความ:</label>
+					    <label class="control-label col-sm-5" for="pwd">Password:</label>
 					    <div class="col-sm-4">
-							<label class="radio-inline"><input type="radio" name="rad_status" value="1" checked>ใช้</label>
-							<label class="radio-inline"><input type="radio" name="rad_status" value="0">ไม่ใช้</label>
+					      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" />
 					    </div>
 					  </div>
 					  <div class="form-group">
-					    <div class="col-sm-offset-5 col-sm-7">
+					    <div class="col-sm-offset-5 col-sm-8">
 					      <button id="submit" type="submit" class="btn btn-default">Submit</button>
-						  <a href="category.php"><button type="button" class="btn btn-default">Back</button></a>
+						  <a href="admin.php"><button type="button" class="btn btn-default">Back</button></a>
 					    </div>
 					  </div>
 					</form>

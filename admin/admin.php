@@ -6,12 +6,22 @@ require_once "dbcon.php";
 //return false;
 //$con = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
 
+// Check Login Person;
+/*if (isset($_SESSION['valid_admin'])) {
+	if ($_SESSION['valid_admin'] != "1") {
+		header('Location: ad_login.php');
+	}
+} else {
+	header('Location: ad_login.php');
+}*/
 
-$conn = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
+// DB section
+//$conn = mysql_connect(SERVER, USR, PWD);
+$link = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
 //mysql_select_db(DB, $conn);
-mysqli_query($conn,"SET character_set_results=utf8");
-mysqli_query($conn,"SET character_set_client=utf8");
-mysqli_query($conn,"SET character_set_connection=utf8");
+mysqli_query($link,"SET character_set_results=utf8");
+mysqli_query($link,"SET character_set_client=utf8");
+mysqli_query($link,"SET character_set_connection=utf8");
 
 $perpage = 10;
 if (isset($_GET['page'])) {
@@ -21,8 +31,8 @@ if (isset($_GET['page'])) {
 }
 $start = ($page - 1) * $perpage;
 
-$get_sql = "select * from category limit {$start} , {$perpage}";
-$result = mysqli_query($conn,$get_sql);
+$get_sql = "select * from admin order by ad_id desc limit {$start} , {$perpage}";
+$result = mysqli_query($link,$get_sql);
 
 ?>
 
@@ -31,12 +41,12 @@ $result = mysqli_query($conn,$get_sql);
 $(document).ready(function(){
 	$(".btn-danger").click(function(){
 		var id=$(this).parent().next("td").text();
-		var data = "hid_cate_id="+id;
+		var data = "hid_ad_id="+id;
 		//alert(data);
 		data = data + "&type=del";
 		$.ajax({
 				type		:	"POST",
-				url			:	"category_pro.php",
+				url		:	"admin_pro.php",
 				data		:	data,
 				success		:	function(html) {
 
@@ -46,7 +56,7 @@ $(document).ready(function(){
 								var arr_html = html.split("|");
 								if (arr_html[0] != "0") {
 									alert(arr_html[1]);
-									window.location = "category.php";
+									window.location = "admin.php";
 								} else {
 									alert(arr_html[1]);
 								}
@@ -64,7 +74,7 @@ $(document).ready(function(){
       <!-- Page Title Zone -->
       <div class="page-title">
          <div class="title_left">
-            <h3>หมวดหมู่บทความ</h3>
+            <h3>ผู้ดูแลระบบ</h3>
          </div>
 
          <div class="title_right">
@@ -84,23 +94,23 @@ $(document).ready(function(){
    <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
          <div class="x_panel">
-            <!-- <div class="x_title">
-               <h2>หมวดหมู่บทความ</h2>
+            <!--<div class="x_title">
+               <h2>Header Text</h2>
 
                <div class="clearfix"></div>
             </div> -->
             <div class="x_content">
 
 					<p style="margin-bottom : 25px;">
-						<img src="../img/Bookmark-add.png" style="width:40px;" />&nbsp;&nbsp;<b style="font-size:1.2em;">รายการหมวดหมู่บทความ</b>
-						&nbsp;<a href="categoryins.php"><button type="button" class="btn btn-default">เพิ่มข้อมูลหมวดหมู่บทความ</button></a>
+						<img src="../img/Admin-icon.png" style="width:40px;" />&nbsp;&nbsp;<b style="font-size:1.2em;">รายชื่อผู้ดูแลระบบ</b>
+						&nbsp;<a href="adminins.php"><button type="button" class="btn btn-default">เพิ่มข้อมูลผู้ดูแลระบบ</button></a>
 					</p>
+
 					<table class="table table-striped">
 					    <thead>
 					      <tr>
-					        <th width="20%">Category Ref Code</th>
-					        <th width="40%">Category Name</th>
-							<th width="20%">Category Status</th>
+					        <th width="30%">User Code</th>
+					        <th width="50%">Username</th>
 							<th width="10%"></th>
 							<th width="10%"></th>
 					      </tr>
@@ -111,22 +121,16 @@ $(document).ready(function(){
 							if (mysqli_num_rows($result) != 0) {
 								while ($row=mysqli_fetch_array($result)) {
 									echo "<tr>";
-									echo "<td>".$row["cate_ref_code"]."</td>";
-									echo "<td>".$row["cate_name"]."</td>";
-									if ($row["cate_status"] == "1") {
-										$status_txt = "ใช้";
-									} else {
-										$status_txt = "ไม่ใช้";
-									}
-									echo "<td>".$status_txt."</td>";
-									echo "<td><a href='categoryupd.php?id=".$row["cate_id"]."'><button type='button' class='btn btn-primary'>Edit</button></a></td>";
+									echo "<td>".$row["ad_user_code"]."</td>";
+									echo "<td>".$row["ad_username"]."</td>";
+									echo "<td><a href='adminupd.php?id=".$row["ad_id"]."'><button type='button' class='btn btn-primary'>Edit</button></a></td>";
 									echo "<td><button type='button' class='btn btn-danger'>Del</button></td>";
-									echo "<td style='display:none'>".$row["cate_id"]."</td>";
+									echo "<td style='display:none'>".$row["ad_id"]."</td>";
 									echo "</tr>";
 								}
 							} else {
 								echo "<tr>";
-								echo "<td colspan=5>ไม่พบข้อมูลในระบบ</td>";
+								echo "<td colspan=4>ไม่พบข้อมูลในระบบ</td>";
 								echo "</tr>";
 							}
 
@@ -134,8 +138,8 @@ $(document).ready(function(){
 					    </tbody>
 					  </table>
 					<?php
-						$sql2 = "select * from category ";
-						$query2 = mysqli_query($conn, $sql2);
+						$sql2 = "select * from admin ";
+						$query2 = mysqli_query($link, $sql2);
 						$total_record = mysqli_num_rows($query2);
 						$total_page = ceil($total_record / $perpage);
 						if ($total_page == "0") {
@@ -147,15 +151,15 @@ $(document).ready(function(){
 						<nav>
 							<ul class="pagination">
 								<li>
-									<a href="category.php?page=1" aria-label="Previous">
+									<a href="admin.php?page=1" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 									</a>
 								</li>
 								<?php for($i=1;$i<=$total_page;$i++){ ?>
-								<li><a href="category.php?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+								<li><a href="admin.php?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
 								<?php } ?>
 								<li>
-									<a href="category.php?page=<?php echo $total_page;?>" aria-label="Next">
+									<a href="admin.php?page=<?php echo $total_page;?>" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 									</a>
 								</li>
@@ -191,7 +195,6 @@ $(document).ready(function(){
 <!-- /page content -->
 
 <?php
-	mysqli_close($conn);
-  	//$conn->close();
-  	include "template_bottom.php";
+  mysqli_close($link);
+  include "template_bottom.php";
 ?>
