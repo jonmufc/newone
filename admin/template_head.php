@@ -128,6 +128,12 @@
                      <li><a><i class="fa fa-book"></i> บทความ <span class="fa fa-chevron-down"></span></a>
                        <ul class="nav child_menu">
                          <li><a href="category.php">จัดการหมวดหมู่บทความ</a></li>
+                         <li><a href="blog_post.php">เพิ่มบทความ</a></li>
+                       </ul>
+                     </li>
+                     <li><a><i class="fa fa-cloud-download"></i> เอกสารแนบ <span class="fa fa-chevron-down"></span></a>
+                       <ul class="nav child_menu">
+                         <li><a href="admin_upfile.php">จัดการเอกสารแนบ</a></li>
                        </ul>
                      </li>
                      <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>

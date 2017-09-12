@@ -84,7 +84,7 @@ $start = ($page - 1) * $perpage;
 	$get_sql = "select p.*,s.company_name from product p inner join supplier s on p.sup_id=s.sup_id limit {$start} , {$perpage}";
 }*/
 
-$get_sql = "select * from tbl_posts limit {$start} , {$perpage}";
+$get_sql = "select * from tbl_posts where post_status = 1 limit {$start} , {$perpage}";
 
 //echo $get_sql;
 $result = mysqli_query($link,$get_sql);
@@ -120,14 +120,14 @@ $(document).ready(function(){
 
 	$(".btn-danger").click(function(){
 		var id=$(this).parent().next("td").text();
-		var data = "hid_pro_id="+id;
+		var data = "hid_post_id="+id;
 		//alert(data);
 		data = data + "&type=del";
 		$.ajax({
 				type		:	"POST",
-				url			:	"product_pro.php",
+				url		:	"blog_postpro.php",
 				data		:	data,
-				success		:	function(html) {
+				success	:	function(html) {
 
 								//alert(html);
 								//$("#result_add_member").html(html);
@@ -135,7 +135,7 @@ $(document).ready(function(){
 								var arr_html = html.split("|");
 								if (arr_html[0] != "0") {
 									alert(arr_html[1]);
-									window.location = "product.php";
+									window.location = "blog_post.php";
 								} else {
 									alert(arr_html[1]);
 								}
@@ -217,10 +217,10 @@ $(document).ready(function(){
             <div class="x_content">
 
 				<p style="margin-bottom : 25px;">
- 			   	<img src="../img/product-icon.png" style="width:40px;" />&nbsp;&nbsp;<b style="font-size:1.2em;">รายการบทความ</b>
+ 			   	<img src="../img/notepad.png" style="width:40px;" />&nbsp;&nbsp;<b style="font-size:1.2em;">รายการบทความ</b>
  			   	&nbsp;<input type="text" id="search" name="search" placeholder="ค้นหา..." value="<?php echo $search; ?>" />
-				<button type="button" class="btn btn-default" id="btn_search">ค้นหา</button>
-				<a href="blog_postins.php"><button type="button" class="btn btn-primary">เพิ่มข้อมูลสินค้า</button></a>
+				<button type="button" class="btn btn-default" id="btn_search" style="margin-top:5px;">ค้นหา</button>
+				<a href="blog_postins.php"><button type="button" class="btn btn-primary" style="margin-top:5px;">เพิ่มบทความใหม่</button></a>
 				<!--
 
  			   	<?php
@@ -279,8 +279,8 @@ $(document).ready(function(){
  			   				//echo "<td><img src='../uploads/".$pro_img."' class='thumb-img' />&nbsp;&nbsp;".$row["pro_name"]."</td>";
 
  			   				echo "<td>".$row["post_name"]."</td>";
- 			   				echo "<td>".$row["post_date"]."</td>";
  			   				echo "<td>".$row["post_owner"]."</td>";
+								echo "<td>".$row["post_date"]."</td>";
 
  			   				/*if ($row["cate_status"] == "1") {
  			   					$status_txt = "ใช้";
@@ -289,7 +289,7 @@ $(document).ready(function(){
  			   				}*/
 
  			   				//echo "<td>".$status_txt."</td>";
- 			   				echo "<td><a href='productupd.php?id=".$row["pro_id"]."'><button type='button' class='btn btn-primary'>Edit</button></a></td>";
+ 			   				echo "<td><a href='blog_postedit.php?id=".$row["post_id"]."'><button type='button' class='btn btn-primary'>Edit</button></a></td>";
  			   				echo "<td><button type='button' class='btn btn-danger'>Del</button></td>";
  			   				echo "<td style='display:none'>".$row["post_id"]."</td>";
  			   				echo "</tr>";

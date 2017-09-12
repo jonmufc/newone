@@ -57,7 +57,7 @@ mysqli_query($link,"SET character_set_connection=utf8");
 
 $(document).ready(function(){
 
-	$("#fileUpload").on('change', function() {
+	/*$("#fileUpload").on('change', function() {
           //Get count of selected files
           var countFiles = $(this)[0].files.length;
           var imgPath = $(this)[0].value;
@@ -86,30 +86,37 @@ $(document).ready(function(){
             alert("Pls select only images");
           }
         });
-
+		  */
+		  
 	$("#submit").click(function(){
 		//alert("test");
 
 		var data;
 		var chk_val = "1";
 
-		$("#frmadd input").each(function(){
-
+		/*$("#frmadd input").each(function(){
+			var attr_name = $(this).attr("id");
+			alert(attr_name);
 			if ($(this).val() == "") {
 				chk_val = "0";
+				//alert(this.prop("tagName"));
+
 			}
 
-		});
+		});*/
 
 		//data = $("#frmadd").serialize();
 		//alert(data);
 		//return false;
 		data = new FormData($("#frmadd")[0]);
 
-		var tiny = tinymce.get('pro_desc').getContent();
+		var tiny = tinymce.get('post_desc').getContent();
 		//data = data + "&type=add&pro_desc2="+tiny;
 
-		//alert(data);
+		var file_doc = $("#sel_file_doc").val();
+		data.append('sel_file_doc1', file_doc);
+		//alert(file_doc);
+		//return false;
 
 		if (chk_val == "0") {
 			alert("กรุณากรอกข้อมูลให้ครบ");
@@ -118,7 +125,7 @@ $(document).ready(function(){
 
 			$.ajax({
 				type		:	"POST",
-				url			:	"product_pro.php",
+				url		:	"blog_postpro.php",
 				data		:	data,
 				cache		: 	false,
 				contentType	: 	false,
@@ -131,7 +138,7 @@ $(document).ready(function(){
 								var arr_html = html.split("|");
 								if (arr_html[0] != "0") {
 									alert(arr_html[1]);
-									window.location = "product.php";
+									window.location = "blog_post.php";
 								} else {
 									alert(arr_html[1]);
 								}
@@ -228,7 +235,7 @@ $(document).ready(function(){
  			     </div>
 
 				 <div class="form-group">
-				 	   <label class="control-label col-sm-4" for="pro_name">เลือกไฟล์ Documents :</label>
+				 	   <label class="control-label col-sm-4" for="file_doc">แนบไฟล์ Documents :</label>
 				 	  <div class="col-sm-8">
 
 				 	  <?php
@@ -236,7 +243,7 @@ $(document).ready(function(){
 				 		   $result = mysqli_query($link,$get_sql);
 				 	   ?>
 
-				 	  <select class="selectpicker" data-live-search="true" multiple>
+				 	  <select id="sel_file_doc" name="sel_file_doc" class="selectpicker" data-live-search="true" multiple>
 				 		 <?php
 				 		   if (mysqli_num_rows($result) > 0) {
 				 			   while ($row = mysqli_fetch_array($result)) {
@@ -249,7 +256,7 @@ $(document).ready(function(){
 				 </div>
 
  			     <div class="form-group">
- 			       <label class="control-label col-sm-4" for="cus_status">สถานะสินค้า:</label>
+ 			       <label class="control-label col-sm-4" for="cus_status">สถานะบทความ:</label>
  			       <div class="col-sm-8">
  			   		<label class="radio-inline"><input type="radio" name="rad_status" value="1" checked>ปกติ</label>
  			   		<label class="radio-inline"><input type="radio" name="rad_status" value="0">ยกเลิก</label>
@@ -262,7 +269,7 @@ $(document).ready(function(){
  			       <div class="col-sm-offset-4 col-sm-8">
  			   		<input type="hidden" name="type" value="add" />
  			         <button id="submit" type="submit" class="btn btn-default">Submit</button>
- 			   	  <a href="product.php"><button type="button" class="btn btn-default">Back</button></a>
+ 			   	  <a href="blog_post.php"><button type="button" class="btn btn-default">Back</button></a>
  			       </div>
  			     </div>
 
