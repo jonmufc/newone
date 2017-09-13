@@ -1,3 +1,14 @@
+<?php
+   session_start();
+   // Check Login Person;
+   if (isset($_SESSION['valid_admin'])) {
+   	if ($_SESSION['valid_admin'] != "1") {
+   		header('Location: ad_login.php');
+   	}
+   } else {
+   	header('Location: ad_login.php');
+   }
+ ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -39,7 +50,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+              <a href="main.php" class="site_title"><i class="fa fa-connectdevelop"></i> <span>KMS System</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -51,7 +62,7 @@
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2><?php echo $_SESSION["ad_username"]; ?></h2>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -136,7 +147,7 @@
                          <li><a href="admin_upfile.php">จัดการเอกสารแนบ</a></li>
                        </ul>
                      </li>
-                     <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+                     <!-- <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
                        <ul class="nav child_menu">
                            <li><a href="#level1_1">Level One</a>
                            <li><a>Level One<span class="fa fa-chevron-down"></span></a>
@@ -154,6 +165,8 @@
                        </ul>
                      </li>
                      <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+                  -->
+                     <li><a href="ad_logout.php"><i class="fa fa-sign-out"></i> ออกจากระบบ </a></li>
                 </ul>
               </div>
 
@@ -191,23 +204,23 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="gentelella-master/production/images/img.jpg" alt="">John Doe
+                    <img src="gentelella-master/production/images/img.jpg" alt=""><?php echo $_SESSION["ad_username"]; ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
+                    <!-- <li><a href="javascript:;"> Profile</a></li>
                     <li>
                       <a href="javascript:;">
                         <span class="badge bg-red pull-right">50%</span>
                         <span>Settings</span>
                       </a>
                     </li>
-                    <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="javascript:;">Help</a></li> -->
+                    <li><a href="ad_logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
 
-                <li role="presentation" class="dropdown">
+                <!-- <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
                     <span class="badge bg-green">6</span>
@@ -270,7 +283,7 @@
                       </div>
                     </li>
                   </ul>
-                </li>
+               </li> -->
               </ul>
             </nav>
           </div>
