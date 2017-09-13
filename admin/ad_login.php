@@ -57,12 +57,15 @@ $conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      testAPI();
-    } else {
+        testAPI();
+    } else if (response.status === 'not_authorized') {
+        $("#status").html("คุณไม่ได้รับอนุญาตให้ใช้งานเว็บนี้");
+    } /*else {
       // The person is not logged into your app or we are unable to tell.
-      document.getElementById('status').innerHTML = 'Please log ' +
+        document.getElementById('status').innerHTML = 'Please log ' +
         'into this app.';
-    }
+        $("#status").html("");
+    } */
   }
 
   // This function is called when someone finishes with the Login
@@ -101,6 +104,26 @@ $conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
 
   };
 
+  /*function loginfb() {
+      FB.login(function(response) {
+            if (response.authResponse) {
+             console.log('Welcome!  Fetching your information.... ');
+             FB.api('/me', function(response) {
+               console.log('Good to see you, ' + response.name + '.');
+             });
+            } else {
+             console.log('User cancelled login or did not fully authorize.');
+            }
+      });
+  }
+
+  function logoutfb() {
+      FB.logout(function(response) {
+          // user is now logged out
+          console.log('Log out!!!');
+        });
+  }*/
+
   // Load the SDK asynchronously
   (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -114,11 +137,50 @@ $conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
   // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
+    FB.api('/me?fields=email,first_name, last_name, picture', function(response) {
+      //console.log('Successful login for: ' + response.name);
+      $("#status").html('Thanks for logging in, ' + response.email + '!');
+
+      var data = "fb=1&email="+response.email;
+      alert(data);
+      $.ajax({
+          type		:	"POST",
+          url		:	"ad_login_verify.php",
+          data		:	data,
+          success	:	function(html) {
+                          //alert(html);
+
+                          if (html == "1") {
+                              window.location = "main.php";
+                              //alert("log in สำเร็จ");
+                          } else if (html == "0") {
+                              alert("ไม่พบข้อมูลหรือคุณกรอก password ผิด");
+                          }
+                      }
+      });
+
+      var propValue;
+      for(var propName in response) {
+          propValue = response[propName];
+
+          console.log(propName,propValue);
+      }
+
     });
+
+    /*FB.api( "/me/picture?type=large", function (response) {
+          if (response && !response.error) {
+
+            //$("#status").append(response.data.picture + "yyy");
+            console.log('Picture: ' + response.data.url );
+            var propValue;
+            for(var propName in response.data) {
+                propValue = response.data[propName]
+
+                console.log(propName,propValue);
+            }
+          }
+    });*/
   }
 </script>
 
@@ -265,11 +327,17 @@ $(document).ready(function(){
 						<div class="panel panel-warning">
 							<div class="panel-heading" style="text-align:center">เข้าสู่ระบบด้วย facebook</div>
 								<div style="text-align:center;margin-top:30px;margin-bottom:30px;">
-									<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-									</fb:login-button>
+
+                                    <!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+									</fb:login-button> -->
+
+                                    <div class="fb-login-button" scope="public_profile,email" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+                                    <!-- <a href="#" onclick="loginfb();" >Log In</a> -->
 
 									<div id="status">
 									</div>
+
+                                    <!-- <a href="#" onclick="logoutfb();">Log Out</a> -->
 								</div>
 						</div>
 
