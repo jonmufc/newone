@@ -98,9 +98,9 @@ $conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
   //
   // These three cases are handled in the callback function.
 
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
+    /*FB.getLoginStatus(function(response) {
+       statusChangeCallback(response);
+    });*/
 
   };
 
@@ -137,22 +137,31 @@ $conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
   // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
+    var pro_img;
+    FB.api( "/me/picture?type=large", function (response) {
+          if (response && !response.error) {
+            pro_img = response.data.url;
+          }
+    });
+
     FB.api('/me?fields=email,first_name, last_name, picture', function(response) {
       //console.log('Successful login for: ' + response.name);
-      $("#status").html('Thanks for logging in, ' + response.email + '!');
+      //$("#status").html('Thanks for logging in, ' + response.email + '!');
 
-      var data = "fb=1&email="+response.email;
-      alert(data);
+      var data = "fb=1&email="+response.email+"&name="+response.first_name+" "+response.last_name+"&pro_img="+pro_img;
+      //alert(data);
+      //return false;
       $.ajax({
           type		:	"POST",
           url		:	"ad_login_verify.php",
           data		:	data,
           success	:	function(html) {
+
                           //alert(html);
 
                           if (html == "1") {
                               window.location = "main.php";
-                              //alert("log in สำเร็จ");
+                              alert("log in สำเร็จ");
                           } else if (html == "0") {
                               alert("ไม่พบข้อมูลหรือคุณกรอก password ผิด");
                           }
@@ -168,19 +177,6 @@ $conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
 
     });
 
-    /*FB.api( "/me/picture?type=large", function (response) {
-          if (response && !response.error) {
-
-            //$("#status").append(response.data.picture + "yyy");
-            console.log('Picture: ' + response.data.url );
-            var propValue;
-            for(var propName in response.data) {
-                propValue = response.data[propName]
-
-                console.log(propName,propValue);
-            }
-          }
-    });*/
   }
 </script>
 
@@ -331,7 +327,7 @@ $(document).ready(function(){
                                     <!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
 									</fb:login-button> -->
 
-                                    <div class="fb-login-button" scope="public_profile,email" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+                                    <div class="fb-login-button" scope="public_profile,email" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div>
                                     <!-- <a href="#" onclick="loginfb();" >Log In</a> -->
 
 									<div id="status">

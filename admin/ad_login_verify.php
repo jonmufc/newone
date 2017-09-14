@@ -14,6 +14,7 @@
 	if (isset($_POST["fb"])) {
 
 		$u_mail = $_POST["email"];
+		$ad_username = $_POST["name"];
 		$sql_find_user = "select ad_mail from admin where ad_mail='".$u_mail."' limit 1";
 		//echo $sql_find_pwd;
 		$result = mysqli_query($link,$sql_find_user);
@@ -25,6 +26,9 @@
 			//$_SESSION['user_type'] = $user_type;
 			$_SESSION['ad_username'] = $ad_username;
 			$_SESSION['fb_login'] = "1";
+
+			//print_r($_SESSION);
+
 		} else {
 			echo "0";
 		}

@@ -8,7 +8,9 @@
    } else {
    	header('Location: ad_login.php');
    }
+
  ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -41,6 +43,115 @@
     <!--jQuery UI -->
     <link href="../lib/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
 
+    <script>
+      // This is called with the results from from FB.getLoginStatus().
+      function statusChangeCallback(response) {
+        console.log('statusChangeCallback');
+        console.log(response);
+        // The response object is returned with a status field that lets the
+        // app know the current login status of the person.
+        // Full docs on the response object can be found in the documentation
+        // for FB.getLoginStatus().
+        if (response.status === 'connected') {
+          // Logged into your app and Facebook.
+            testAPI();
+        } else if (response.status === 'not_authorized') {
+            $("#status").html("คุณไม่ได้รับอนุญาตให้ใช้งานเว็บนี้");
+        } /*else {
+          // The person is not logged into your app or we are unable to tell.
+            document.getElementById('status').innerHTML = 'Please log ' +
+            'into this app.';
+            $("#status").html("");
+        } */
+      }
+
+      // This function is called when someone finishes with the Login
+      // Button.  See the onlogin handler attached to it in the sample
+      // code below.
+      function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+        });
+      }
+
+      window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '848155985339713',
+        cookie     : true,  // enable cookies to allow the server to access
+                            // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v2.8' // use graph api version 2.8
+      });
+
+      // Now that we've initialized the JavaScript SDK, we call
+      // FB.getLoginStatus().  This function gets the state of the
+      // person visiting this page and can return one of three states to
+      // the callback you provide.  They can be:
+      //
+      // 1. Logged into your app ('connected')
+      // 2. Logged into Facebook, but not your app ('not_authorized')
+      // 3. Not logged into Facebook and can't tell if they are logged into
+      //    your app or not.
+      //
+      // These three cases are handled in the callback function.
+
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+
+      };
+
+      /*function loginfb() {
+          FB.login(function(response) {
+                if (response.authResponse) {
+                 console.log('Welcome!  Fetching your information.... ');
+                 FB.api('/me', function(response) {
+                   console.log('Good to see you, ' + response.name + '.');
+                 });
+                } else {
+                 console.log('User cancelled login or did not fully authorize.');
+                }
+          });
+      }
+
+      function logoutfb() {
+          FB.logout(function(response) {
+              // user is now logged out
+              console.log('Log out!!!');
+            });
+      }*/
+
+      // Load the SDK asynchronously
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
+      // Here we run a very simple test of the Graph API after login is
+      // successful.  See statusChangeCallback() for when this call is made.
+      function testAPI() {
+         var pro_img;
+         FB.api( "/me/picture?type=large", function (response) {
+               if (response && !response.error) {
+                $(".fb_profile_side").html("<img src='"+response.data.url+"' alt='' class='img-circle profile_img' />");
+                pro_img = response.data.url;
+                //alert(pro_img);
+                console.log('Welcome!  Fetching your information.... ');
+                FB.api('/me?fields=email,first_name, last_name, picture', function(response) {
+                  //console.log('Successful login for: ' + response.name);
+                  $(".fb_info_side h2").html(response.first_name+" "+response.last_name);
+                  $(".fb_pro_img_nav").html("<img src='"+pro_img+"' /> "+response.first_name+" "+response.last_name+"&nbsp;<span class=' fa fa-angle-down'></span>");
+                });
+               }
+         });
+
+
+
+      }
+    </script>
 
   </head>
 
@@ -57,14 +168,31 @@
 
             <!-- menu profile quick info -->
             <div class="profile clearfix">
-              <div class="profile_pic">
-                <img src="gentelella-master/production/images/img.jpg" alt="..." class="img-circle profile_img">
-              </div>
-              <div class="profile_info">
-                <span>Welcome,</span>
-                <h2><?php echo $_SESSION["ad_username"]; ?></h2>
-              </div>
-              <div class="clearfix"></div>
+
+               <?php
+               if (isset($_SESSION["fb_login"])) {
+                  ?>
+                  <div class="profile_pic fb_profile_side">
+                  </div>
+                  <div class="profile_info fb_info_side">
+                   <span>Welcome,</span>
+                   <h2></h2>
+                 </div>
+                  <?php
+               } else {
+                  ?>
+                  <div class="profile_pic">
+                   <img src="gentelella-master/production/images/img.jpg" alt="..." class="img-circle profile_img">
+                  </div>
+                  <div class="profile_info">
+                   <span>Welcome,</span>
+                   <h2><?php echo $_SESSION["ad_username"]; ?></h2>
+                  </div>
+                  <?php
+               }
+                ?>
+
+                 <div class="clearfix"></div>
             </div>
             <!-- /menu profile quick info -->
 
@@ -204,8 +332,20 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="gentelella-master/production/images/img.jpg" alt=""><?php echo $_SESSION["ad_username"]; ?>
-                    <span class=" fa fa-angle-down"></span>
+                     <?php
+                        if (isset($_SESSION["fb_login"])) {
+                           ?>
+                           <div class="fb_pro_img_nav"></div>
+                           <?php
+                        } else {
+                           ?>
+                           <img src="gentelella-master/production/images/img.jpg" alt=""><?php echo $_SESSION["ad_username"]; ?>
+                           <span class=" fa fa-angle-down"></span>
+                           <?php
+                        }
+                      ?>
+
+
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <!-- <li><a href="javascript:;"> Profile</a></li>
