@@ -1,0 +1,323 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+@import url(font/thsarabunnew.css);
+
+@font-face {
+    font-family: 'superspace_regularregular';
+    src: url('font/superspace_regular_ver_1.00-webfont.woff2') format('woff2'),
+         url('font/superspace_regular_ver_1.00-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+body {
+	background : url("../img/tweed.png") repeat;
+	/*font-family: 'THSarabunNew';*/
+    /*font-family : "Microsoft Sans Serif";*/
+    font-size : 1.0em;
+
+}
+
+.panel {
+    border: 0px !important;
+    background-color: transparent;
+}
+
+.navbar-brand {
+  padding: 5px 15px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.navbar-toggle {
+  /* (80px - button height 34px) / 2 = 23px */
+  margin-top: 23px;
+  padding: 9px 10px !important;
+}
+
+.navbar-nav > li > a {
+/* (80px - line-height of 27px) / 2 = 26.5px */
+padding-top: 5.5px;
+padding-bottom: 5.5px;
+line-height: 27px;
+}
+
+.navbar-inverse {
+     background-color: #222 !important;
+     border-color: #080808 !important;
+}
+
+.navbar {
+    min-height: 30px;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+h1,h2,h3,h4 {
+	/*font-family: 'THSarabunNew';*/
+}
+
+li ,p,span {
+	/*font-family: 'THSarabunNew';
+	font-weight: bold;*/
+}
+
+th {
+    background-color: #5973a6;
+    color: white;
+}
+
+.container {
+	background-color : #fff;
+}
+
+.cus_name {
+	color : #bce8f1;
+}
+
+#topmenu {
+	/*font-family: 'Open Sans', sans-serif;*/
+	height : 45px;
+	background-color : #5973a6;
+	margin-bottom : 5px;
+}
+
+#topmenu a {
+	color : #fff;
+}
+
+#topmenu ul {
+	list-style-type : none;
+	text-align : left;
+}
+
+#topmenu ul li{
+	display : inline-block;
+	color : #fff;
+	/*width : 130px;
+	background-color : #fc0;*/
+	padding : 10px 10px 5px 10px;
+
+}
+
+#topmenu img {
+	width : 40px;
+}
+
+#topmenu i {
+	background-color: #33383b;
+	color: #ffffff;
+	font-size: 20px;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 32px;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.menu-left {
+    padding-right : 0px !important;
+}
+
+.right-side {
+    padding-left : 0px !important;
+}
+
+.menu-left, .right-side {
+	/*padding-top : 20px;
+	padding-bottom : 20px;
+	min-height : 500px;*/
+}
+
+
+
+#sidebar {
+	padding-top : 15px;
+    min-height: 450px;
+    background-color : #f1f1f1;
+}
+
+.search_zone {
+    margin-bottom : 15px;
+    /*padding : 0px 5px 0px 10px;*/
+}
+
+.sb-head {
+    background: url("../img/sb-head-bg.png") no-repeat center;
+    height: 55px;
+    width: 200px;
+}
+
+.sb-head div {
+    margin-left: 60px;
+    padding-top: 13px;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #063988;
+}
+
+.sb-head-login div {
+    margin-left: 70px;
+    padding-top: 13px;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #063988;
+}
+
+.sb-head-login {
+    background: url("../img/sb-head-login.png") no-repeat center;
+    height: 55px;
+    width: 200px;
+}
+
+.profile_img {
+    width: 65px;
+}
+.fb_profile_zone {
+    text-align: center;
+}
+.fb_profile_side {
+
+}
+.fb_bt_zone {
+    text-align: center;
+}
+.profile_img {
+    border: 2px solid #fff;
+}
+
+
+.fb_info_side {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.sidebar-module {
+    margin-bottom : 20px;
+}
+
+#welcome {
+	margin : 15px;
+	/*width : 100px;*/
+	text-align:right;
+}
+
+.panel-green {
+	border-color : #345558;
+}
+
+.panel-green > .panel-heading {
+	background-color : #345558;
+	color : #fff;
+	border-color : #345558;
+}
+
+.list-cate {
+	list-style : none;
+	padding : 0px;
+}
+.list-cate li{
+	padding : 10px 10px 10px 30px;
+}
+.list-cate li:hover{
+	background-color : #eee;
+	color : #da35b5;
+}
+.list-cate > li:hover > a {
+	color : #da35b5;
+}
+
+
+ul.main-menu {
+	padding-top : 8px;
+}
+
+ul.main-menu li {
+	margin-top : 1px;
+	padding : 10px 10px 10px 10px;
+	width : 90%;
+	background-color : #333333;
+	color : #fff;
+}
+
+ul.main-menu li:hover {
+	background-color : #000;
+}
+
+ul.main-menu li:hover a{
+	color : #428bca;
+}
+
+ul.main-menu li a{
+	color : #fff;
+	text-decoration : none;
+}
+
+#headimg {
+	width : 100%;
+}
+
+.footer-distributed {
+	background-color : #5973a6;
+	padding : 20px 0px 20px 0px;
+	color : #fff;
+	margin-top : 5px;
+	margin-right : 0px;
+	margin-left : 0px;
+	text-align : center;
+	height : 180px;
+}
+.footer-center {
+	margin-left : auto;
+	margin-right : auto;
+}
+.footer-distributed .footer-center i {
+	background-color: #33383b;
+	color: #ffffff;
+	font-size: 25px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 42px;
+	margin: 10px 15px;
+	vertical-align: middle;
+	display: inline-block;
+}
+.footer-distributed .footer-center p {
+	/* display: inline-block; */
+}
+.footer-distributed .footer-center a {
+	color : #fff;
+}
+
+.button {
+    background-color: #5973a6; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.button {
+    background-color: #5973a6; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.txt1 {
+    color : #611926;
+    font-weight: bold;
+}
