@@ -23,6 +23,7 @@ if (mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_array($result)){
 		$category = $row["cate_name"];
 		$cate_status = $row["cate_status"];
+		$prim_cate_id = $row["prim_cate_id"];
 	}
 
 	if ($cate_status == "1") {
@@ -132,6 +133,32 @@ $(document).ready(function(){
 					      <input type="textbox" class="form-control" id="category" placeholder="Enter category" name="category" value="<?php echo $category; ?>"/>
 					    </div>
 					  </div>
+
+					  <div class="form-group">
+					    <label class="control-label col-sm-5" for="cate_id">หมวดหมู่บทความหลัก:</label>
+					    <div class="col-sm-4">
+					  <?php
+					 	$get_sql = "select * from category where cate_status = 1 and prim_cate_id = 0";
+					 	//echo $get_sql;
+					 	$result = mysqli_query($conn,$get_sql);
+					  ?>
+					 	<select class="form-control" id="prim_cate_id" name="prim_cate_id">
+					 	  <option value="0">------------โปรดเลือกข้อมูล-----------</option>
+					 	  <?php
+					 		  if (mysqli_num_rows($result) > 0) {
+					 			  while ($row = mysqli_fetch_array($result)) {
+									  if ($prim_cate_id == $row["cate_id"]) {
+										  echo "<option value='".$row["cate_id"]."' selected>".$row["cate_name"]."</option>";
+									  } else {
+										  echo "<option value='".$row["cate_id"]."'>".$row["cate_name"]."</option>";
+									  }
+					 			  }
+					 		  }
+					 	  ?>
+					 	</select>
+					    </div>
+					  </div>
+
 					  <div class="form-group">
 					    <label class="control-label col-sm-5" for="pwd">สถานะหมวดหมู่บทความ:</label>
 					    <div class="col-sm-4">

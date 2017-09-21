@@ -23,6 +23,7 @@ if (isset($_POST)) {
 		//echo "Good";
 		$category = $_POST["category"];
 		$cate_status = $_POST["rad_status"];
+		$prim_cate_id = $_POST["prim_cate_id"];
 
 		$sql_find_cate = "select cate_id from category where cate_name='".$category."' limit 1";
 		$result = mysqli_query($conn,$sql_find_cate);
@@ -44,8 +45,14 @@ if (isset($_POST)) {
 				$cate_ref_code = "C".$cate_ref_code;
 			}
 
-			$ins_new_cate = "insert into category (cate_ref_code,cate_name,cate_status) ";
-			$ins_new_cate .= "values ('".$cate_ref_code."','".$category."','".$cate_status."')";
+			if ($prim_cate_id == "0") {
+				$ins_new_cate = "insert into category (cate_ref_code,cate_name,cate_status,prim_cate_id) ";
+				$ins_new_cate .= "values ('".$cate_ref_code."','".$category."','".$cate_status."',0)";
+			} else {
+				$ins_new_cate = "insert into category (cate_ref_code,cate_name,cate_status,prim_cate_id) ";
+				$ins_new_cate .= "values ('".$cate_ref_code."','".$category."','".$cate_status."',".$prim_cate_id.")";
+			}
+
 			$res_ins = mysqli_query($conn,$ins_new_cate);
 			if ($res_ins) {
 
@@ -62,6 +69,7 @@ if (isset($_POST)) {
 		$cate_name = $_POST["category"];
 		$cate_status = $_POST["rad_status"];
 		$cate_id = $_POST["hid_cate_id"];
+		$prim_cate_id = $_POST["prim_cate_id"];
 
 		$sql_find_cate = "select cate_id from category where cate_id=".$cate_id." limit 1";
 		$result = mysqli_query($conn,$sql_find_cate);
@@ -70,7 +78,7 @@ if (isset($_POST)) {
 
 			// Get latest ID
 
-			$upd_cate = "update category set cate_name='".$cate_name."',cate_status ='".$cate_status."'";
+			$upd_cate = "update category set cate_name='".$cate_name."',cate_status ='".$cate_status."',prim_cate_id=".$prim_cate_id;
 			$upd_cate .= " where cate_id=".$cate_id;
 			$res_upd = mysqli_query($conn,$upd_cate);
 			if ($res_upd) {
