@@ -43,12 +43,29 @@ $(document).ready(function(){
 		<div class="panel-body">
 
 	<?php
-	if (isset($_GET['key'])) {
-		$search = $_GET['key'];
-		echo "<h3>ผลการค้นหาบทความ</h3>";
+	if (isset($_GET['cate_id'])) {
+		$cate_no = $_GET['cate_id'];
 	} else {
-		echo "<h3 style='margin-left:15px;margin-bottom:20px;'>องค์ความรู้เหมืองแม่เมาะ</h3>";
+		echo "คุณไม่ได้เลือกหมวดหมู่ที่ถูกต้อง";
+		return false;
 	}
+
+	$get_cate = "select * from category where cate_id=".$cate_no." limit 1";
+	//echo $get_img;
+	$res_cate = mysqli_query($link,$get_cate);
+	if (mysqli_num_rows($res_cate)>0) {
+		while ($row_cate=mysqli_fetch_array($res_cate)) {
+			$cate_name = $row_cate["cate_name"];
+		}
+	}
+	?>
+	<div id="content_navigate">
+		 <span><a href="index.php">Home</a></span>&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+		 <span><a href="#"><?php echo $cate_name; ?></a></span>
+	</div>
+	<?php
+	echo "<h3 style='margin-left:15px;margin-bottom:20px;'>".$cate_name."</h3>";
+
 
 	$perpage = 6;
 	if (isset($_GET['page'])) {
@@ -59,9 +76,9 @@ $(document).ready(function(){
 	$start = ($page - 1) * $perpage;
 
 	if (isset($_GET['key'])) {
-		$get_sql = "select * from tbl_posts where post_status = 1 and post_name like '%{$search}%' order by post_id desc limit {$start} , {$perpage} ";
+		$get_sql = "select * from tbl_posts where post_status = 1 and post_cate_id={$cate_no} and post_name like '%{$search}%' order by post_id desc limit {$start} , {$perpage} ";
 	} else {
-		$get_sql = "select * from tbl_posts where post_status = 1 order by post_id desc limit {$start} , {$perpage} ";
+		$get_sql = "select * from tbl_posts where post_status = 1 and post_cate_id={$cate_no} order by post_id desc limit {$start} , {$perpage} ";
 	}
 
 	//echo $get_sql;
@@ -94,7 +111,7 @@ $(document).ready(function(){
 					<div class="caption" style="margin-top:7px;">
 						<div class="dv_post_name">
 							<a href="post.php?p=<?php echo $row["post_id"]; ?>"><?php echo $row["post_name"] ?></a>
-				   	</div>
+			   		</div>
 						<div class="dv_post_date">
 							<?php echo DateThai($row["post_date"]); ?>
 				   	</div>

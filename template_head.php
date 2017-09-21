@@ -134,6 +134,25 @@
                   //console.log('Successful login for: ' + response.name);
                   $(".fb_info_side #fb_name").html(response.first_name+" "+response.last_name);
                   //$(".fb_pro_img_nav").html("<img src='"+pro_img+"' /> "+response.first_name+" "+response.last_name+"&nbsp;<span class=' fa fa-angle-down'></span>");
+						var data = "fb=1&email="+response.email+"&name="+response.first_name+" "+response.last_name+"&pro_img="+pro_img;
+				      //alert(data);
+				      //return false;
+				      $.ajax({
+				          type		:	"POST",
+				          url		:	"login_verify.php",
+				          data		:	data,
+				          success	:	function(html) {
+
+				                          //alert(html);
+				                          /*if (html == "1") {
+				                              window.location = "main.php";
+				                              alert("log in สำเร็จ");
+				                          } else if (html == "0") {
+				                              alert("ไม่พบข้อมูลหรือคุณกรอก password ผิด");
+				                          }*/
+
+				                      }
+				      });
                 });
                }
          });
@@ -169,12 +188,12 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="#"><i class="fa fa-home"></i></a>
+	      <a class="navbar-brand" href="index.php"><i class="fa fa-home"></i></a>
 	    </div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="#">หน้าแรก</a></li>
-	        <li><a href="#">เว็บบอร์ด</a></li>
+	        <li class="active"><a href="index.php">หน้าแรก</a></li>
+	        <li><a href="wb_board.php">เว็บบอร์ด</a></li>
 	        <!-- <li><a href="#">Page 2</a></li>
 	        <li><a href="#">Page 3</a></li> -->
 			<li></li>
@@ -236,12 +255,21 @@
 								echo "<li><a href='category.php?cate_id=".$row["cate_id"]."'>".$row["cate_name"]."</a></li>";
 							}
 						} else {
-							echo "<li>ไม่พบประเภทสินค้า</li>";
+							echo "<li>ไม่พบประเภทบทความ</li>";
 						}
 					?>
 
 				</ul>
 
+			</div>
+			<div class="sidebar-module">
+			  	<div class="sb-head-site">
+				  <div>This Site</div>
+				  </div>
+				<ul class="list-cate">
+					<li><a href='wb_board.php'>เว็บบอร์ด</a></li>
+					<li><a href='file_download.php'>ดาวน์โหลดเอกสาร</a></li>
+				</ul>
 			</div>
 			<!-- <div>
 				<div style="padding: 10px 10px 10px 13px;background-color: #5973a6;color:#fff"><img src="img/ems.png" style="width:20px;vertical-align:middle" />&nbsp;EMS Tracking</div>

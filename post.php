@@ -71,7 +71,7 @@ $(document).ready(function(){
             $post_owner = $row_post["post_owner"];
             $post_date = $row_post["post_date"];
             $cate_name = $row_post["cate_name"];
-
+				$post_cate_id = $row_post["post_cate_id"];
         }
 
     }
@@ -79,7 +79,7 @@ $(document).ready(function(){
 ?>
     <div id="content_navigate">
         <span>Home</span>&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
-        <span><a href="#"><?php echo $cate_name; ?></a></span>
+        <span><a href="category.php?cate_id=<?php echo $post_cate_id; ?>"><?php echo $cate_name; ?></a></span>
     </div>
     <div class="article">
 

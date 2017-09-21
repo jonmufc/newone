@@ -13,10 +13,7 @@
 			<div class="col-sm-12">
 					<div class="footer-center">
 						<div class="footer-addr">
-							<p>ร้านป้ามาลีตั้งอยู่ที่ ตลาดหน้าวัดพระธาตุลำปางหลวง ล็อคที่ 26-27 อำเภอเกาะคา จังหวัดลำปาง </p>
-							<p>054-xxx123</p>
-							<p><a href="mailto:admin@pamali.com">admin@pamali.com</a></p>
-							<p>
+							<p>Copyright @2017 : <a href="mailto:admin@kms.com">admin@kms.com</a>
 							<a href="#"><i class="fa fa-facebook"></i></a>
 							<a href="#"><i class="fa fa-twitter"></i></a>
 							<a href="#"><i class="fa fa-linkedin"></i></a>

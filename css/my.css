@@ -15,7 +15,10 @@ body {
 	background : url("../img/tweed.png") repeat;
 	/*font-family: 'THSarabunNew';*/
     /*font-family : "Microsoft Sans Serif";*/
-    font-size : 1.0em;
+    font-size : 1.2em;
+}
+
+.container {
 
 }
 
@@ -144,6 +147,7 @@ th {
 .search_zone {
     margin-bottom : 15px;
     /*padding : 0px 5px 0px 10px;*/
+    text-align: center;
 }
 
 .sb-head {
@@ -168,10 +172,33 @@ th {
     color: #063988;
 }
 
+.sb-head-site div {
+    margin-left: 60px;
+    padding-top: 13px;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #063988;
+}
+
 .sb-head-login {
     background: url("../img/sb-head-login.png") no-repeat center;
     height: 55px;
     width: 200px;
+}
+
+.sb-head-site {
+   background: url("../img/sb-head-site.png") no-repeat center;
+   height: 55px;
+   width: 200px;
+}
+
+.post_card {
+   width:100%;
+   border-style: solid;
+   border-width: 1px;
+   border-color: #e3e3e3;
+   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.17), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+   text-align: center;
 }
 
 .profile_img {
@@ -262,14 +289,14 @@ ul.main-menu li a{
 }
 
 .footer-distributed {
-	background-color : #5973a6;
-	padding : 20px 0px 20px 0px;
+	background-color : #3b475d;
+	/*padding : 10px 0px 10px 0px;*/
 	color : #fff;
 	margin-top : 5px;
 	margin-right : 0px;
 	margin-left : 0px;
 	text-align : center;
-	height : 180px;
+	height : 60px;
 }
 .footer-center {
 	margin-left : auto;
