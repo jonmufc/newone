@@ -109,6 +109,7 @@ $(document).ready(function(){
 			echo "</div>";
 		}
 		 ?>
+		 <div class="fb-comments" data-href="http://localhost/new/newone/post.php?p=<?php echo	$post_id; ?>" data-numposts="5"></div>
     </div>
 		</div>
 	</div>
