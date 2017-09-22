@@ -88,7 +88,7 @@ $(document).ready(function(){
             <i class="fa fa-pencil-square"></i>&nbsp;ผู้เขียน : <span class="txt1"><?php echo $post_owner ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar"></i>&nbsp;เขียนเมื่อ : <span class="txt1"><?php echo DateThai($post_date); ?></span>
         </div>
         <div class="article_desc">
-            <?php echo htmlspecialchars_decode($post_desc); ?>
+            <?php echo htmlspecialchars_decode(str_replace("../","",$post_desc)); ?>
         </div>
 		<?php
 		// ค้นหาไฟล์เอกสาร
