@@ -86,9 +86,25 @@ $(document).ready(function(){
 			?>
 
 
-			   <div class="col-md-12 col-sm-12 col-xs-12">
-					
+			   <div class="col-sm-6 col-md-4">
+				<div class="post_card">
+					<a href="post.php?p=<?php echo $row["post_id"]; ?>">
+						<img src="img/download.png" style="width:100%" />
+					</a>
+					<div class="caption" style="margin-top:7px;">
+						<div class="dv_post_name">
+							<a href="post.php?p=<?php echo $row["post_id"]; ?>"><?php echo $row["post_name"] ?></a>
+				   	</div>
+						<div class="dv_post_date">
+							<?php echo DateThai($row["post_date"]); ?>
+				   	</div>
+						<div class="dv_post_desc_short">
+							<?php echo iconv_substr(strip_tags(htmlspecialchars_decode($row["post_desc"])),0,200, "UTF-8"); ?>...
+							 <p><a href="post.php?p=<?php echo $row["post_id"]; ?>"><button class="btn btn-default" type="button">Read More..</button></a></p>
+						</div>
+					</div>
 				</div>
+			</div>
 
 			<?php
 		}
