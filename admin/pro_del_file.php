@@ -6,7 +6,11 @@ require_once "dbcon.php";
 //return false;
 //$con = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
 
-$conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
+$link = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
+//mysql_select_db(DB, $conn);
+mysqli_query($link,"SET character_set_results=utf8");
+mysqli_query($link,"SET character_set_client=utf8");
+mysqli_query($link,"SET character_set_connection=utf8");
 
 $fd_id = $_POST["hid_file_id"];
 $file_name = $_POST["hid_file_name"];
@@ -14,42 +18,21 @@ $folder_name = $_POST["hid_folder_name"];
 
 //echo $fd_id." ".$full_name;
 
-     $sql = "delete from tbl_file_doc where fd_id = ?";
-     $stmt = $conn->prepare($sql);
+     $sql = "delete from tbl_file_doc where fd_id = ".$fd_id;
+     $res_sql = mysqli_query($link,$sql);
 
-     $stmt->bind_param('i', $fd_id); //   s - string, b - blob, i - int, etc
-
-     /*** for 2 Parameters
-       $strCustomerID = "C001";
-       $strEmail = "win.weerachai@thaicreate.com";
-       $sql = "SELECT * FROM customer WHERE CustomerID = ? AND Email = ? ";
-       $stmt = $conn->prepare($sql);
-       $stmt->bind_param('ss', $strCustomerID,$strEmail); //   s - string, b - blob, i - int, etc
-     **/
-
-
-
-     $stmt ->execute();
-
-     $result = $stmt->get_result();
-
-     $aff_rows = $stmt->affected_rows;
-     if ($aff_rows > 0) {
+     if ($res_sql) {
 
        $flgDelete = unlink("files/".$folder_name."/".$file_name);
        if ($flgDelete) {
          rmdir("files/".$folder_name);
-         echo "1";
-       } else {
-         echo "0";
        }
 
-
-     } else {
-       echo "0";
      }
+     
+     echo "1";
 
 
-  $conn->close();
+  mysqli_close($link);
 
   ?>

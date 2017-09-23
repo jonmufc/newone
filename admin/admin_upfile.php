@@ -272,6 +272,7 @@ mysqli_query($link,"SET character_set_connection=utf8");
         <!-- /page content -->
 
 <?php
-  $conn->close();
+  //$conn->close();
+  mysqli_close($link);
   include "template_bottom.php";
 ?>

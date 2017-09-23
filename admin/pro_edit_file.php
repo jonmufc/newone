@@ -6,38 +6,28 @@ require_once "dbcon.php";
 //return false;
 //$con = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
 
-$conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
+//$conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
+
+$link = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
+//mysql_select_db(DB, $conn);
+mysqli_query($link,"SET character_set_results=utf8");
+mysqli_query($link,"SET character_set_client=utf8");
+mysqli_query($link,"SET character_set_connection=utf8");
 
 $fd_id = $_POST["hid_file_id"];
 $full_name = $_POST["full_name"];
 
 //echo $fd_id." ".$full_name;
 
-     $sql = "update tbl_file_doc set full_name= ? where fd_id = ?";
-     $stmt = $conn->prepare($sql);
+     $sql = "update tbl_file_doc set full_name= '".$full_name."' where fd_id = ".$fd_id;
 
-     $stmt->bind_param('si', $full_name, $fd_id); //   s - string, b - blob, i - int, etc
+     //echo $sql;
 
-     /*** for 2 Parameters
-       $strCustomerID = "C001";
-       $strEmail = "win.weerachai@thaicreate.com";
-       $sql = "SELECT * FROM customer WHERE CustomerID = ? AND Email = ? ";
-       $stmt = $conn->prepare($sql);
-       $stmt->bind_param('ss', $strCustomerID,$strEmail); //   s - string, b - blob, i - int, etc
-     **/
+     $res_sql = mysqli_query($link,$sql);
 
-     $stmt ->execute();
-
-     $result = $stmt->get_result();
-
-     $aff_rows = $stmt->affected_rows;
-     if ($aff_rows > 0) {
-       echo "1";
-     } else {
-       echo "0";
-     }
+     echo "1";
 
 
-  $conn->close();
+     mysqli_close($link);
 
   ?>
