@@ -248,11 +248,20 @@
 				  </div>
 				<ul class="list-cate">
 					<?php
-						$get_sql = "select * from category";
+						/*$get_sql = "select * from category";
 						$result = mysqli_query($link,$get_sql);
 						if (mysqli_num_rows($result) > 0) {
 							while ($row=mysqli_fetch_array($result)) {
 								echo "<li><a href='category.php?cate_id=".$row["cate_id"]."'>".$row["cate_name"]."</a></li>";
+							}
+						} else {
+							echo "<li>ไม่พบประเภทบทความ</li>";
+						}*/
+						$get_sql = "select * from tbl_posts a inner join category b on a.post_cate_id=b.cate_id where a.post_status = 1 order by post_id asc limit 6";
+						$result = mysqli_query($link,$get_sql);
+						if (mysqli_num_rows($result) > 0) {
+							while ($row=mysqli_fetch_array($result)) {
+								echo "<li><a href='post.php?p=".$row["post_id"]."'>".$row["cate_name"]."</a></li>";
 							}
 						} else {
 							echo "<li>ไม่พบประเภทบทความ</li>";
