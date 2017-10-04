@@ -77,7 +77,7 @@ $(document).ready(function(){
 		data = data + "&type=del";
 		$.ajax({
 				type		:	"POST",
-				url			:	"customer_pro.php",
+				url			:	"user_pro.php",
 				data		:	data,
 				success		:	function(html) {
 
@@ -87,7 +87,7 @@ $(document).ready(function(){
 								var arr_html = html.split("|");
 								if (arr_html[0] != "0") {
 									alert(arr_html[1]);
-									window.location = "customer.php";
+									window.location = "user.php";
 								} else {
 									alert(arr_html[1]);
 								}
@@ -99,14 +99,14 @@ $(document).ready(function(){
 	$("#btn_search").click(function(){
 		var key = $("#search").val();
 
-		window.location = "customer.php?key="+key;
+		window.location = "user.php?key="+key;
 	});
 
 	$("#search").keypress(function(e) {
     if(e.which == 13) {
         var key = $(this).val();
 
-		window.location = "customer.php?key="+key;
+		window.location = "user.php?key="+key;
     }
 	});
 });
@@ -119,7 +119,7 @@ $(document).ready(function(){
       <!-- Page Title Zone -->
       <div class="page-title">
          <div class="title_left">
-            <h3>Page Title</h3>
+            <h3>รายชื่อผู้ใช้งานระบบ</h3>
          </div>
 
          <div class="title_right">
@@ -139,18 +139,14 @@ $(document).ready(function(){
    <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
          <div class="x_panel">
-            <div class="x_title">
-               <h2>Header Text</h2>
 
-               <div class="clearfix"></div>
-            </div>
             <div class="x_content">
 
 					<p style="margin-bottom : 25px;">
 						<img src="../img/customer.png" style="width:40px;" />&nbsp;&nbsp;<b style="font-size:1.2em;">รายชื่อผู้ใช้งานระบบ</b>
 						&nbsp;<input type="text" id="search" name="search" placeholder="ค้นหาจากชื่อผู้ใช้งาน..." value="<?php echo $search; ?>" />
 						<button type="button" class="btn btn-default" id="btn_search">ค้นหา</button>
-						<a href="customerins.php"><button type="button" class="btn btn-default">เพิ่มข้อมูลผู้ใช้งาน</button></a>
+						<a href="userins.php"><button type="button" class="btn btn-default">เพิ่มข้อมูลผู้ใช้งาน</button></a>
 						<!-- <a href="report.php?report=1" target="_blank"><button type="button" class="btn btn-default">ดูรายงาน</button></a> -->
 					</p>
 					<table class="table table-striped">
@@ -171,10 +167,11 @@ $(document).ready(function(){
 							if (mysqli_num_rows($result) != 0) {
 								while ($row=mysqli_fetch_array($result)) {
 									echo "<tr>";
-									echo "<td>".$row["cus_ref_code"]."</td>";
-									echo "<td>".$row["cus_name"]."</td>";
-									echo "<td>".$row["cus_address"]."</td>";
-									echo "<td>".$row["cus_tel"]."</td>";
+									echo "<td>".$row["empn"]."</td>";
+									echo "<td>".$row["user_pic"]."</td>";
+									echo "<td>".$row["fullname"]."</td>";
+									echo "<td>".$row["user_dept"]."</td>";
+									echo "<td>".$row["user_tel"]."</td>";
 
 									/*if ($row["cate_status"] == "1") {
 										$status_txt = "ใช้";
@@ -183,9 +180,9 @@ $(document).ready(function(){
 									}*/
 
 									//echo "<td>".$status_txt."</td>";
-									echo "<td><a href='customerupd.php?id=".$row["cus_id"]."'><button type='button' class='btn btn-primary'>Edit</button></a></td>";
+									echo "<td><a href='userupd.php?id=".$row["empn"]."'><button type='button' class='btn btn-primary'>Edit</button></a></td>";
 									echo "<td><button type='button' class='btn btn-danger'>Del</button></td>";
-									echo "<td style='display:none'>".$row["cus_id"]."</td>";
+									echo "<td style='display:none'>".$row["empn"]."</td>";
 									echo "</tr>";
 								}
 							} else {
@@ -198,7 +195,7 @@ $(document).ready(function(){
 					    </tbody>
 					  </table>
 					<?php
-						$sql2 = "select * from customer ";
+						$sql2 = "select * from tbl_users ";
 						$query2 = mysqli_query($link, $sql2);
 						$total_record = mysqli_num_rows($query2);
 						$total_page = ceil($total_record / $perpage);
@@ -213,9 +210,9 @@ $(document).ready(function(){
 								<li>
 									<?php
 										if (isset($_GET['key'])) {
-											echo "<a href='customer.php?page=1&key=".$search."' aria-label='Previous'>";
+											echo "<a href='user.php?page=1&key=".$search."' aria-label='Previous'>";
 										} else {
-											echo "<a href='customer.php?page=1' aria-label='Previous'>";
+											echo "<a href='user.php?page=1' aria-label='Previous'>";
 										}
 									?>
 									<span aria-hidden="true">&laquo;</span>
@@ -225,18 +222,18 @@ $(document).ready(function(){
 								<li>
 								<?php
 										if (isset($_GET['key'])) {
-											echo "<a href='customer.php?page={$i}&key={$search}'>{$i}</a></li>";
+											echo "<a href='user.php?page={$i}&key={$search}'>{$i}</a></li>";
 										} else {
-											echo "<a href='customer.php?page={$i}'>{$i}</a></li>";
+											echo "<a href='user.php?page={$i}'>{$i}</a></li>";
 										}
 									?>
 								<?php } ?>
 								<li>
 									<?php
 										if (isset($_GET['key'])) {
-											echo "<a href='customer.php?page={$total_page}&key={$search}' aria-label='Next'>";
+											echo "<a href='user.php?page={$total_page}&key={$search}' aria-label='Next'>";
 										} else {
-											echo "<a href='customer.php?page={$total_page}' aria-label='Next'>";
+											echo "<a href='user.php?page={$total_page}' aria-label='Next'>";
 										}
 									?>
 									<span aria-hidden="true">&raquo;</span>
