@@ -16,7 +16,7 @@ if (isset($_SESSION['valid_admin'])) {
 
 // DB section
 //$conn = mysql_connect(SERVER, USR, PWD);
-$link = mysqli_connect(SERVER, USR, PWD, DB);
+$link = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
 //mysql_select_db(DB, $conn);
 mysqli_query($link,"SET character_set_results=utf8");
 mysqli_query($link,"SET character_set_client=utf8");
@@ -38,10 +38,13 @@ if (isset($_GET['page'])) {
 $start = ($page - 1) * $perpage;
 
 if (isset($_GET['key'])) {
-	$get_sql = "select * from tbl_user where fullname like '%{$search}%' limit {$start} , {$perpage}";
+	$get_sql = "select * from tbl_users where fullname like '%{$search}%' limit {$start} , {$perpage}";
 } else {
-	$get_sql = "select * from tbl_user limit {$start} , {$perpage}";
+	$get_sql = "select * from tbl_users limit {$start} , {$perpage}";
 }
+
+//echo $get_sql;
+
 	$result = mysqli_query($link,$get_sql);
 
 
@@ -143,7 +146,6 @@ $(document).ready(function(){
             <div class="x_content">
 
 					<p style="margin-bottom : 25px;">
-						<img src="../img/customer.png" style="width:40px;" />&nbsp;&nbsp;<b style="font-size:1.2em;">รายชื่อผู้ใช้งานระบบ</b>
 						&nbsp;<input type="text" id="search" name="search" placeholder="ค้นหาจากชื่อผู้ใช้งาน..." value="<?php echo $search; ?>" />
 						<button type="button" class="btn btn-default" id="btn_search">ค้นหา</button>
 						<a href="userins.php"><button type="button" class="btn btn-default">เพิ่มข้อมูลผู้ใช้งาน</button></a>
@@ -168,7 +170,7 @@ $(document).ready(function(){
 								while ($row=mysqli_fetch_array($result)) {
 									echo "<tr>";
 									echo "<td>".$row["empn"]."</td>";
-									echo "<td>".$row["user_pic"]."</td>";
+									echo "<td><img src='userprofile/".$row["user_pic"]."' style='width:50px' /></td>";
 									echo "<td>".$row["fullname"]."</td>";
 									echo "<td>".$row["user_dept"]."</td>";
 									echo "<td>".$row["user_tel"]."</td>";
