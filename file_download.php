@@ -4,7 +4,13 @@
 	//$get_sql = "select * from admin";
 	//$result = mysqli_query($link,$get_sql);
 	//$result = mysqli_query($link,$get_sql);
-	$conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
+	//$conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
+
+	$link = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
+	//mysql_select_db(DB, $conn);
+	mysqli_query($link,"SET character_set_results=utf8");
+	mysqli_query($link,"SET character_set_client=utf8");
+	mysqli_query($link,"SET character_set_connection=utf8");
 
 	function DateThai($strDate)
 	{
@@ -70,22 +76,11 @@ $(document).ready(function(){
 
 	$sql = "select * from tbl_file_doc order by fd_id desc limit {$start} , {$perpage}";
 	//echo $sql;
-   $stmt = $conn->prepare($sql);
+   //$stmt = $conn->prepare($sql);
+   $res_sql = mysqli_query($link,$sql);
 
-	//$stmt->bind_param('s', $strCustomerID); //   s - string, b - blob, i - int, etc
-
-	 /*** for 2 Parameters
-		 $strCustomerID = "C001";
-		 $strEmail = "win.weerachai@thaicreate.com";
-		 $sql = "SELECT * FROM customer WHERE CustomerID = ? AND Email = ? ";
-		 $stmt = $conn->prepare($sql);
-		 $stmt->bind_param('ss', $strCustomerID,$strEmail); //   s - string, b - blob, i - int, etc
-	 **/
-
-	 $stmt ->execute();
-
-	 $result = $stmt->get_result();
-	 while ($row = $result->fetch_assoc()) {
+   if (mysqli_num_rows($res_sql) > 0) {
+   	while ($row=mysqli_fetch_array($res_sql)) {
 	?>
 	<div class="row">
 	  <div class="col-md-12 col-sm-12 col-xs-12">
@@ -111,6 +106,9 @@ $(document).ready(function(){
 	  </div>
 	</div>
 	<?php
+		}
+	} else {
+		echo "ไม่พบเอกสาร";
 	}
 	?>
 <?php

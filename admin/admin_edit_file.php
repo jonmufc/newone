@@ -6,7 +6,13 @@ require_once "dbcon.php";
 //return false;
 //$con = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
 
-$conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
+//$conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
+
+$link = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
+//mysql_select_db(DB, $conn);
+mysqli_query($link,"SET character_set_results=utf8");
+mysqli_query($link,"SET character_set_client=utf8");
+mysqli_query($link,"SET character_set_connection=utf8");
 
 ?>
 
@@ -48,10 +54,11 @@ $conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
 
                         $file_id = $_GET["fd_id"];
 
-                        $sql = "select * from tbl_file_doc where fd_id = ? order by fd_id desc";
-                        $stmt = $conn->prepare($sql);
+                        $sql = "select * from tbl_file_doc where fd_id = ".$file_id." order by fd_id desc";
+                        $res_sql = mysqli_query($link,$sql);
+                        //$stmt = $conn->prepare($sql);
 
-                        $stmt->bind_param('i', $file_id); //   s - string, b - blob, i - int, etc
+                        //$stmt->bind_param('i', $file_id); //   s - string, b - blob, i - int, etc
 
                         /*** for 2 Parameters
                           $strCustomerID = "C001";
@@ -60,21 +67,16 @@ $conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
                           $stmt = $conn->prepare($sql);
                           $stmt->bind_param('ss', $strCustomerID,$strEmail); //   s - string, b - blob, i - int, etc
                         **/
+                        if (mysqli_num_rows($res_sql) > 0)
+                        {
+                            while ($row = mysqli_fetch_array($res_sql)) {
 
-                        $stmt ->execute();
-
-                        $result = $stmt->get_result();
-                        $chk_rows = $result->num_rows;
-
-                        if ($chk_rows > 0) {
-                          while ($row = $result->fetch_assoc())
-                          {
                             $file_name = $row["file_name"];
                             $full_name = $row["full_name"];
                             $folder_name = $row["folder_name"];
-                          }
-                        }
 
+                            }
+                        }
 
 
                      ?>
@@ -217,6 +219,7 @@ $conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
         <!-- /page content -->
 
 <?php
-  $conn->close();
+  //$conn->close();
+  mysql_close($link);
   include "template_bottom.php";
 ?>
