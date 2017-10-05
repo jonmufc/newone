@@ -10,7 +10,7 @@ $(document).ready(function(){
     if(e.which == 13) {
         var key = $(this).val();
 
-		window.location = "index.php?key="+key;
+		window.location = "index-blog.php?key="+key;
     }
 	});
 
