@@ -112,7 +112,7 @@ $(document).ready(function(){
 		echo "<li>ไม่พบบทความ</li>";
 	}
 
-	$sql2 = "select * from tbl_posts ";
+	$sql2 = "select * from tbl_posts where post_status = 1 ";
 	$query2 = mysqli_query($link, $sql2);
 	$total_record = mysqli_num_rows($query2);
 	$total_page = ceil($total_record / $perpage);
@@ -125,9 +125,9 @@ $(document).ready(function(){
 			<li>
 				<?php
 					if (isset($_GET['key'])) {
-						echo "<a href='index.php?page=1&key=".$search."' aria-label='Previous'>";
+						echo "<a href='index-blog.php?page=1&key=".$search."' aria-label='Previous'>";
 					} else {
-						echo "<a href='index.php?page=1' aria-label='Previous'>";
+						echo "<a href='index-blog.php?page=1' aria-label='Previous'>";
 					}
 				?>
 
@@ -138,18 +138,18 @@ $(document).ready(function(){
 			<li>
 			<?php
 					if (isset($_GET['key'])) {
-						echo "<a href='index.php?page={$i}&key={$search}'>{$i}</a></li>";
+						echo "<a href='index-blog.php?page={$i}&key={$search}'>{$i}</a></li>";
 					} else {
-						echo "<a href='index.php?page={$i}'>{$i}</a></li>";
+						echo "<a href='index-blog.php?page={$i}'>{$i}</a></li>";
 					}
 				?>
 			<?php } ?>
 			<li>
 			<?php
 					if (isset($_GET['key'])) {
-						echo "<a href='index.php?page={$total_page}&key={$search}' aria-label='Next'>";
+						echo "<a href='index-blog.php?page={$total_page}&key={$search}' aria-label='Next'>";
 					} else {
-						echo "<a href='index.php?page={$total_page}' aria-label='Next'>";
+						echo "<a href='index-blog.php?page={$total_page}' aria-label='Next'>";
 					}
 				?>
 

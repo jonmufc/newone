@@ -201,6 +201,10 @@ th {
    text-align: center;
 }
 
+#login_result {
+   text-align: center;
+}
+
 .profile_img {
     width: 65px;
 }

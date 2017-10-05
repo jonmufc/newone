@@ -264,6 +264,11 @@
                          <li><a href="admin.php">จัดการผู้ดูแลระบบ</a></li>
                        </ul>
                      </li>
+                     <li><a><i class="fa fa-user"></i> ผู้ใช้งานระบบ <span class="fa fa-chevron-down"></span></a>
+                       <ul class="nav child_menu">
+                         <li><a href="user.php">จัดการผู้ใช้งานระบบ</a></li>
+                       </ul>
+                     </li>
                      <li><a><i class="fa fa-book"></i> บทความ <span class="fa fa-chevron-down"></span></a>
                        <ul class="nav child_menu">
                          <li><a href="category.php">จัดการหมวดหมู่บทความ</a></li>

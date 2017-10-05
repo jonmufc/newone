@@ -82,26 +82,53 @@ if (isset($_POST)) {
 		}
 	} else if ($_POST["type"]=="upd") {
 
-		$cus_name = $_POST["cus_name"];
-		$cus_address = $_POST["cus_address"];
-		$cus_tel = $_POST["cus_tel"];
-		$cus_email = $_POST["cus_email"];
-		$cus_user = $_POST["cus_user"];
-		$cus_pass = $_POST["cus_pass"];
-		$cus_status = $_POST["rad_status"];
-		$cus_id = $_POST["hid_cus_id"];
+		$tmpFilePath = $_FILES['fileUpload']['tmp_name'];
+		$tmpFileName = $_FILES['fileUpload']['name'];
 
-		$sql_find_cus = "select cus_id from customer where cus_id=".$cus_id." limit 1";
-		$result = mysqli_query($link,$sql_find_cus);
+		//$arr_tfname = explode(".",$tmpFileName);
+		$ext = pathinfo($tmpFileName, PATHINFO_EXTENSION);
+		//Make sure we have a filepath
+
+		if ($tmpFilePath != ""){
+
+			$ins_sql = "insert into profile_image (pf_file_name) values ('".$_FILES['fileUpload']['name']."')";
+			$res_ins = mysqli_query($link,$ins_sql);
+			$img_id = mysqli_insert_id($link);
+			//Setup our new file path
+			//$newFilePath = "./uploads/" . $_FILES['fileUpload']['name'][$i];
+			$new_file = $img_id.".".$ext;
+			$newFilePath = "userprofile/" .$new_file;
+
+			//Upload the file into the temp dir
+			if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+
+			  //Handle other code here
+			  $move = "move file complete";
+
+			}
+		} else {
+			$new_file = "";
+		}
+
+		$empn = $_POST["hid_empn"];
+		$fullname = $_POST["user_fullname"];
+		$user_tel = $_POST["user_tel"];
+		$user_pass = $_POST["user_pass"];
+		$user_dept = $_POST["user_dept"];
+
+		$sql_find_usr = "select empn from tbl_users where empn='".$empn."' limit 1";
+		$result = mysqli_query($link,$sql_find_usr);
 
 		if (mysqli_num_rows($result) != 0) {
 
 			// Get latest ID
 
-			$upd_cus = "update customer set cus_name='".$cus_name."',cus_address ='".$cus_address."',cus_tel='".$cus_tel."',cus_mail='".$cus_email."'";
-			$upd_cus .= ",cus_user='".$cus_user."',cus_password='".$cus_pass."',cus_status=".$cus_status;
-			$upd_cus .= " where cus_id=".$cus_id;
-			$res_upd = mysqli_query($link,$upd_cus);
+			$upd_usr = "update tbl_users set fullname ='".$fullname."',user_tel='".$user_tel."',user_password='".$user_pass."',user_dept='".$user_dept."'";
+			if ($new_file != "") {
+					$upd_usr .= ",user_pic='".$new_file."' ";
+			}
+			$upd_usr .= " where empn=".$empn;
+			$res_upd = mysqli_query($link,$upd_usr);
 			if ($res_upd) {
 
 				echo "1|ปรับปรุงข้อมูลเรียบร้อยแล้ว";
@@ -115,17 +142,17 @@ if (isset($_POST)) {
 
 	} else if ($_POST["type"] == "del") {
 
-		$cus_id = $_POST["hid_cus_id"];
+		$empn = $_POST["empn"];
 
-		$sql_find_cus = "select cus_id from customer where cus_id=".$cus_id." limit 1";
-		$result = mysqli_query($link,$sql_find_cus);
+		$sql_find_usr = "select empn from tbl_users where empn='".$empn."' limit 1";
+		$result = mysqli_query($link,$sql_find_usr);
 
 		if (mysqli_num_rows($result) != 0) {
 
 			// Get latest ID
 
-			$del_cus = "delete from customer where cus_id = ".$cus_id;
-			$res_del = mysqli_query($link,$del_cus);
+			$del_usr = "delete from tbl_users where empn = '".$empn."'";
+			$res_del = mysqli_query($link,$del_usr);
 			if ($res_del) {
 
 				echo "1|ลบข้อมูลเรียบร้อยแล้ว";
@@ -134,7 +161,7 @@ if (isset($_POST)) {
 				echo "0|เกิดข้อผิดพลาด!";
 			}
 		} else {
-			echo "0|ไม่พบ ลูกค้า นี้ในระบบ";
+			echo "0|ไม่พบผู้ใช้งานนี้ในระบบ";
 		}
 
 	}

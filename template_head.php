@@ -33,133 +33,47 @@
 	}
 	</style>
 
-	<script>
-	  // This is called with the results from from FB.getLoginStatus().
-	  function statusChangeCallback(response) {
-	    console.log('statusChangeCallback');
-	    console.log(response);
-	    // The response object is returned with a status field that lets the
-	    // app know the current login status of the person.
-	    // Full docs on the response object can be found in the documentation
-	    // for FB.getLoginStatus().
-	    if (response.status === 'connected') {
-	      // Logged into your app and Facebook.
-	        testAPI();
-	    } else if (response.status === 'not_authorized') {
-	        $("#status").html("คุณไม่ได้รับอนุญาตให้ใช้งานเว็บนี้");
-	    } /*else {
-	      // The person is not logged into your app or we are unable to tell.
-	        document.getElementById('status').innerHTML = 'Please log ' +
-	        'into this app.';
-	        $("#status").html("");
-	    } */
-	  }
 
-	  // This function is called when someone finishes with the Login
-	  // Button.  See the onlogin handler attached to it in the sample
-	  // code below.
-	  function checkLoginState() {
-	    FB.getLoginStatus(function(response) {
-	      statusChangeCallback(response);
-	    });
-	  }
+	<script type="text/javascript">
+		$(document).ready(function(){
 
-	  window.fbAsyncInit = function() {
-	  FB.init({
-	    appId      : '848155985339713',
-	    cookie     : true,  // enable cookies to allow the server to access
-	                        // the session
-	    xfbml      : true,  // parse social plugins on this page
-	    version    : 'v2.8' // use graph api version 2.8
-	  });
+			$("#btn_login").click(function(){
 
-	  // Now that we've initialized the JavaScript SDK, we call
-	  // FB.getLoginStatus().  This function gets the state of the
-	  // person visiting this page and can return one of three states to
-	  // the callback you provide.  They can be:
-	  //
-	  // 1. Logged into your app ('connected')
-	  // 2. Logged into Facebook, but not your app ('not_authorized')
-	  // 3. Not logged into Facebook and can't tell if they are logged into
-	  //    your app or not.
-	  //
-	  // These three cases are handled in the callback function.
+				var input_usr = $("#input_usr").val();
+				var input_pwd = $("#input_pwd").val();
+				if (input_usr=="") {
+					alert("โปรดใส่เลขประจำตัว");
+					return false;
+				}
+				if (input_pwd=="") {
+					alert("โปรดใส่พาสเวิร์ด");
+					return false;
+				}
 
-	    FB.getLoginStatus(function(response) {
-	       statusChangeCallback(response);
-	    });
+				var data = "input_usr="+input_usr+"&input_pwd="+input_pwd;
 
-	  };
+				$.ajax({
+					 type		:	"POST",
+					 url		:	"login_verify.php",
+					 data		:	data,
+					 success	:	function(html) {
 
-	  /*function loginfb() {
-	      FB.login(function(response) {
-	            if (response.authResponse) {
-	             console.log('Welcome!  Fetching your information.... ');
-	             FB.api('/me', function(response) {
-	               console.log('Good to see you, ' + response.name + '.');
-	             });
-	            } else {
-	             console.log('User cancelled login or did not fully authorize.');
-	            }
-	      });
-	  }
+										  //alert(html);
 
-	  function logoutfb() {
-	      FB.logout(function(response) {
-	          // user is now logged out
-	          console.log('Log out!!!');
-	        });
-	  }*/
+										  //$("#login_result").html(html);
+										  //window.location = "index.php";
+										  if (html == "1") {
+											  	alert("log in สำเร็จ");
+												window.location = "index.php";
+										  } else if (html == "0") {
+												alert("ไม่พบข้อมูลหรือคุณกรอก password ผิด");
+										  }
 
-	  // Load the SDK asynchronously
-	  (function(d, s, id) {
-	    var js, fjs = d.getElementsByTagName(s)[0];
-	    if (d.getElementById(id)) return;
-	    js = d.createElement(s); js.id = id;
-	    js.src = "//connect.facebook.net/en_US/sdk.js";
-	    fjs.parentNode.insertBefore(js, fjs);
-	  }(document, 'script', 'facebook-jssdk'));
+									 }
+				});
+			});
 
-	  // Here we run a very simple test of the Graph API after login is
-	  // successful.  See statusChangeCallback() for when this call is made.
-	  function testAPI() {
-         var pro_img;
-         FB.api( "/me/picture?type=large", function (response) {
-               if (response && !response.error) {
-                $(".fb_profile_side").html("<img src='"+response.data.url+"' alt='' class='img-circle profile_img' />");
-                pro_img = response.data.url;
-                //alert(pro_img);
-                console.log('Welcome!  Fetching your information.... ');
-                FB.api('/me?fields=email,first_name, last_name, picture', function(response) {
-                  //console.log('Successful login for: ' + response.name);
-                  $(".fb_info_side #fb_name").html(response.first_name+" "+response.last_name);
-                  //$(".fb_pro_img_nav").html("<img src='"+pro_img+"' /> "+response.first_name+" "+response.last_name+"&nbsp;<span class=' fa fa-angle-down'></span>");
-						var data = "fb=1&email="+response.email+"&name="+response.first_name+" "+response.last_name+"&pro_img="+pro_img;
-				      //alert(data);
-				      //return false;
-				      $.ajax({
-				          type		:	"POST",
-				          url		:	"login_verify.php",
-				          data		:	data,
-				          success	:	function(html) {
-
-				                          //alert(html);
-				                          /*if (html == "1") {
-				                              window.location = "main.php";
-				                              alert("log in สำเร็จ");
-				                          } else if (html == "0") {
-				                              alert("ไม่พบข้อมูลหรือคุณกรอก password ผิด");
-				                          }*/
-
-				                      }
-				      });
-                });
-               }
-         });
-
-		$(".fb_bt_zone").hide();
-		$(".fb_profile_zone").show();
-	  }
+		});
 	</script>
 
 </head>
@@ -226,7 +140,48 @@
 				  <div>เข้าสู่ระบบ</div>
 				</div>
 
-				<div class="fb_bt_zone">
+				<?php
+
+				if (!isset($_SESSION["valid_user"])) {
+				 ?>
+				<div id="login_info" style="text-align:center;padding:10px 10px 10px 10px;" >
+					<input placeholder="Username" type="textbox" id="input_usr" class="form-control" /><br>
+					<input placeholder="Password" type="password" id="input_pwd"  class="form-control" /><br>
+					<input type="button" value="Login" id="btn_login" class="btn btn-default" />&nbsp;<br><br>
+					<!-- ><input type="checkbox" name="cb_reme" value="re1"> Remember Me -->
+					<!-- <a href="forget_login.php" id="link_forget" >[ Forget ]</a> -->
+					<span>หรือ login ด้วย <a href="fblogin.php" style="text-decoration:underline;">Facebook</a></span>
+				</div>
+				<?php
+				} else {
+				 ?>
+				<div id="login_result">
+					<div class="profile_pic">
+						<?php
+							if (isset($_SESSION["fb"])) {
+								//echo $_SESSION['user_pic'];
+								?>
+
+								<img src='<?php echo $_SESSION['user_pic']; ?>' alt='' class='img-circle profile_img' />
+								<?php
+							} else {
+								?>
+								<img src='admin/userprofile/<?php echo $_SESSION['user_pic']; ?>' alt='' class='img-circle profile_img' />
+								<?php
+							}
+						?>
+					</div>
+					<span>ยินดีต้อนรับ,</span><b><span id="login_name"><?php echo $_SESSION['user_fullname']; ?></span></b>
+					<div>
+						<a href="logout.php">Log Out</a>
+					</div>
+
+				</div>
+				<?php
+				}
+				?>
+
+				<!--<div class="fb_bt_zone">
 					<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
 					</fb:login-button>
 				</div>
@@ -236,10 +191,11 @@
 					</div>
 					<div class="profile_info fb_info_side">
 					 <span>ยินดีต้อนรับ,</span><b><span id="fb_name"></span></b>
+					 <a href="#" onclick="fblogout();" style="cursor:pointer;text-decoration:underline;">Log out FB</div>
 					</div>
 					<div style="clear:both"></div>
 				</div>
-				<div style="clear:both"></div>
+				<div style="clear:both"></div> -->
 			</div>
 			<div style="clear:both"></div>
 			<div class="sidebar-module">

@@ -75,7 +75,7 @@ if (isset($_GET['key'])) {
 $(document).ready(function(){
 	$(".btn-danger").click(function(){
 		var id=$(this).parent().next("td").text();
-		var data = "hid_cus_id="+id;
+		var data = "empn="+id;
 		//alert(data);
 		data = data + "&type=del";
 		$.ajax({
@@ -144,11 +144,10 @@ $(document).ready(function(){
          <div class="x_panel">
 
             <div class="x_content">
-
 					<p style="margin-bottom : 25px;">
-						&nbsp;<input type="text" id="search" name="search" placeholder="ค้นหาจากชื่อผู้ใช้งาน..." value="<?php echo $search; ?>" />
+						&nbsp;<input type="text" style="margin-bottom: 5px;" id="search" name="search" placeholder="ค้นหาจากชื่อผู้ใช้งาน..." value="<?php echo $search; ?>" />
 						<button type="button" class="btn btn-default" id="btn_search">ค้นหา</button>
-						<a href="userins.php"><button type="button" class="btn btn-default">เพิ่มข้อมูลผู้ใช้งาน</button></a>
+						<a href="userins.php"><button type="button" class="btn btn-primary">เพิ่มข้อมูลผู้ใช้งาน</button></a>
 						<!-- <a href="report.php?report=1" target="_blank"><button type="button" class="btn btn-default">ดูรายงาน</button></a> -->
 					</p>
 					<table class="table table-striped">
@@ -170,7 +169,7 @@ $(document).ready(function(){
 								while ($row=mysqli_fetch_array($result)) {
 									echo "<tr>";
 									echo "<td>".$row["empn"]."</td>";
-									echo "<td><img src='userprofile/".$row["user_pic"]."' style='width:50px' /></td>";
+									echo "<td><img src='userprofile/".$row["user_pic"]."' style='width:50px;height:50px;' /></td>";
 									echo "<td>".$row["fullname"]."</td>";
 									echo "<td>".$row["user_dept"]."</td>";
 									echo "<td>".$row["user_tel"]."</td>";
