@@ -208,6 +208,12 @@ th {
 .profile_img {
     width: 65px;
 }
+.profile_img2 {
+    width: 50px;
+}
+.profile_img2 {
+    border: 1px solid #fff;
+}
 .fb_profile_zone {
     text-align: center;
 }

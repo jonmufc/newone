@@ -12,11 +12,13 @@ if (isset($_GET["Action"])) {
 
 if($action == "Save")
 {
+	date_default_timezone_set('Asia/Bangkok');
+	$record_date = date("Y-m-d H:i:s");
 	//*** Insert Reply ***//
 	$strSQL = "INSERT INTO reply ";
-	$strSQL .="(QuestionID,CreateDate,Details,Name) ";
+	$strSQL .="(QuestionID,CreateDate,Details,Name,empn) ";
 	$strSQL .="VALUES ";
-	$strSQL .="('".$_GET["QuestionID"]."','".date("Y-m-d H:i:s")."','".$_POST["txtDetails"]."','".$_POST["txtName"]."') ";
+	$strSQL .="('".$_GET["QuestionID"]."','".$record_date."','".$_POST["txtDetails"]."','".$_POST["txtName"]."','".$_SESSION["empn"]."') ";
 	$objQuery = mysqli_query($link,$strSQL);
 
 	//*** Update Reply ***//
@@ -28,7 +30,8 @@ if($action == "Save")
 
 <?php
 //*** Select Question ***//
-$strSQL = "SELECT * FROM webboard  WHERE QuestionID = '".$_GET["QuestionID"]."' ";
+$strSQL = "SELECT w.*,e.user_pic FROM webboard w INNER JOIN tbl_users e ON w.empn = e.empn WHERE QuestionID = '".$_GET["QuestionID"]."'";
+
 $objQuery = mysqli_query($link,$strSQL);
 $objResult = mysqli_fetch_array($objQuery);
 
@@ -44,10 +47,12 @@ $objQuery = mysqli_query($link,$strSQL);
 	}
 	#tb_topic {
 		background-color : rgba(52, 85, 88, 0.07);
+		border-radius: 12px;
 	}
 
-	#tb_reply {
+	.tb_reply {
 		background-color : #E9FAE2;
+		border-radius: 12px;
 	}
 	#tb_topic td, #tb_topic th {
 		/*border-bottom-style : solid;
@@ -56,10 +61,13 @@ $objQuery = mysqli_query($link,$strSQL);
 
 	}
 	.txt_color1 {
-		color : #CA2668;
+		color : #254554;
 	}
 	.txt_color2 {
 		color : #1C319B;
+	}
+	.row {
+		margin-top : 10px;
 	}
 </style>
 
@@ -67,9 +75,9 @@ $objQuery = mysqli_query($link,$strSQL);
 	<div class="panel-body">
 
 		<div id="main_content">
-			<div id="dv_webboard">
+			<div id="dv_webboard" class="col-md-12 col-sm-12 col-xs-12">
 				<h3>เว็บบอร์ด</h3>
-				<table width="100%" border="0" cellpadding="5px" cellspacing="1px" id="tb_topic">
+				<table width="100%" border="0" cellpadding="15px" cellspacing="1px" id="tb_topic">
 				  <tr>
 					<td colspan="2"><center><h1><?php echo $objResult["Question"];?></h1></center></td>
 				  </tr>
@@ -77,7 +85,9 @@ $objQuery = mysqli_query($link,$strSQL);
 					<td height="53" colspan="2"><?php echo nl2br($objResult["Details"]);?></td>
 				  </tr>
 				  <tr>
-					<td width="397"><label class='txt_color1'>ชื่อ : </label><label class='txt_color2'><?php echo $objResult["Name"];?></label> <label class='txt_color1'>วันที่ตั้งกระทู้ : </label><label class='txt_color2'><?php echo $objResult["CreateDate"];?></label></td>
+					<td width="397"><label class='txt_color1'>ชื่อ : </label>
+						<img src="admin/userprofile/<?php echo $objResult["user_pic"]; ?>" alt="" style="vertical-align:middle" class="img-circle profile_img2" />
+						<label class='txt_color2'><?php echo $objResult["Name"];?></label> <label class='txt_color1'>วันที่ตั้งกระทู้ : </label><label class='txt_color2'><?php echo $objResult["CreateDate"];?></label></td>
 					<td width="253"><label class='txt_color1'>จำนวนผู้ชม : </label><label class='txt_color1'><?php echo $objResult["View"];?></label> <label class='txt_color2'>คนตอบกระทู้ : </label><label class='txt_color1'><?php echo $objResult["Reply"];?></label></td>
 				  </tr>
 				</table>
@@ -85,18 +95,20 @@ $objQuery = mysqli_query($link,$strSQL);
 				<br>
 				<?php
 				$intRows = 0;
-				$strSQL2 = "SELECT * FROM reply  WHERE QuestionID = '".$_GET["QuestionID"]."' ";
+				$strSQL2 = "SELECT r.*,e.user_pic FROM reply r INNER JOIN tbl_users e ON r.empn = e.empn WHERE QuestionID = '".$_GET["QuestionID"]."'";
+
 				$objQuery2 = mysqli_query($link,$strSQL2);
 				while($objResult2 = mysqli_fetch_array($objQuery2))
 				{
 					$intRows++;
 				?> <b>ความคิดเห็น : <?php echo $intRows;?></b><br>
-				<table width="100%" border="0" cellpadding="5px" cellspacing="1px" id="tb_reply" >
+				<table width="100%" border="0" cellpadding="15px" cellspacing="1px" class="tb_reply" >
 				  <tr>
 					<td height="53" colspan="2"><?php echo nl2br($objResult2["Details"]);?></td>
 				  </tr>
 				  <tr>
 					<td width="397"><label class='txt_color1'>ชื่อ :</label>
+						<img src="admin/userprofile/<?php echo $objResult["user_pic"]; ?>" alt="" style="vertical-align:middle" class="img-circle profile_img2" />
 						<label class='txt_color2'><?php echo $objResult2["Name"];?></label>
 					</td>
 					<td width="253"><label class='txt_color1'>วันที่ตอบกระทู้ :</label>
@@ -116,33 +128,35 @@ $objQuery = mysqli_query($link,$strSQL);
 					$valid_user = "0";
 				}
 				if ($valid_user != "0") {
-				?>
-				<p><b>ตอบกระทู้</b></p>
+				?><br>
+				<h4><b>ตอบกระทู้</b></h4>
 
 				<form action="wb_viewboard.php?QuestionID=<?php echo $_GET["QuestionID"];?>&Action=Save" method="post" name="frmMain" id="frmMain">
-				  <table width="100%" border="0" cellpadding="5px" cellspacing="1px" id="tb_new_reply" >
-					<tr>
-					  <td width="78">รายละเอียด</td>
-					  <td><textarea name="txtDetails" cols="50" rows="5" id="txtDetails"></textarea></td>
-					</tr>
-					<tr>
-					  <td width="78">Name</td>
-					  <?php
-						if (isset($_SESSION['username'])) {
-							$user_name = $_SESSION['username'];
-							?>
-							<td width="647"><input name="txtName" type="text" id="txtName" value="<?php echo $user_name; ?>" size="50" readonly></td>
-					  <?php
-						} else {
-						?>
-							<td width="647"><input name="txtName" type="text" id="txtName" value="" size="50"></td>
-						<?php
-						}
-					  ?>
-					</tr>
-				  </table>
-				  <br>
-				  <input name="btnSave" type="submit" id="btnSave" value="ตอบกระทู้">
+					<div class="row">
+	  					 <div class="col-md-3 col-sm-3 col-xs-3" style="text-align:right" >
+						  <span>รายละเอียด</span>
+					  	</div>
+						<div class="col-md-9 col-sm-9 col-xs-9" >
+							<textarea name="txtDetails" cols="50" rows="5" id="txtDetails" class="form-control"></textarea>
+						</div>
+					</div>
+					<div class="row">
+  					  <div class="col-md-3 col-sm-3 col-xs-3" style="text-align:right" >
+  						<span>ชื่อ</span>
+  					 </div>
+  					 <div class="col-md-9 col-sm-9 col-xs-9" >
+  						 <input name="txtName" type="text" id="txtName" value="<?php echo $_SESSION["user_fullname"]; ?>" size="50" class="form-control" readonly />
+  					 </div>
+  				 	</div>
+					<div class="row">
+  					  <div class="col-md-3 col-sm-3 col-xs-3" style="text-align:right" >
+  						<span></span>
+  					 </div>
+  					 <div class="col-md-9 col-sm-9 col-xs-9" >
+  							<input name="btnSave" class="btn btn-primary" type="submit" id="btnSave" value="ตอบกระทู้">
+  					 </div>
+  				 	</div>
+
 				</form>
 				<?php
 				}

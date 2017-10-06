@@ -21,8 +21,17 @@
 <style type="text/css">
 
 .dv_post_name {
-	font-size : 1.3em;
+	font-size : 1.0em;
 	font-weight: bold;
+}
+
+.post_card {
+	height: 350px;
+	margin-bottom : 20px;
+}
+
+.caption {
+	padding: 10px;
 }
 
 </style>
@@ -106,17 +115,20 @@ $(document).ready(function(){
 			   <div class="col-sm-6 col-md-4">
 				<div class="post_card">
 					<a href="post.php?p=<?php echo $row["post_id"]; ?>">
-						<img src="img/download.png" style="width:100%" />
+						<?php
+							$arr_str = explode("&quot;",str_replace("../","",$row["post_desc"]));
+						?>
+						<img src="<?php echo $arr_str[1]; ?>" style="width:100%" />
 					</a>
 					<div class="caption" style="margin-top:7px;">
 						<div class="dv_post_name">
-							<a href="post.php?p=<?php echo $row["post_id"]; ?>"><?php echo $row["post_name"] ?></a>
+							<a href="post.php?p=<?php echo $row["post_id"]; ?>"><?php echo iconv_substr($row["post_name"],0,50,"UTF-8")."..."; ?></a>
 			   		</div>
 						<div class="dv_post_date">
 							<?php echo DateThai($row["post_date"]); ?>
 				   	</div>
 						<div class="dv_post_desc_short">
-							<?php echo iconv_substr(strip_tags(htmlspecialchars_decode($row["post_desc"])),0,200, "UTF-8"); ?>...
+							<?php echo iconv_substr(strip_tags(htmlspecialchars_decode($row["post_desc"])),0,100, "UTF-8"); ?>...
 							 <p><a href="post.php?p=<?php echo $row["post_id"]; ?>"><button class="btn btn-default" type="button">Read More..</button></a></p>
 						</div>
 					</div>
@@ -129,7 +141,7 @@ $(document).ready(function(){
 		echo "<li>ไม่พบบทความ</li>";
 	}
 
-	$sql2 = "select * from tbl_posts ";
+	$sql2 = "select * from tbl_posts where post_status = 1";
 	$query2 = mysqli_query($link, $sql2);
 	$total_record = mysqli_num_rows($query2);
 	$total_page = ceil($total_record / $perpage);
@@ -142,9 +154,9 @@ $(document).ready(function(){
 			<li>
 				<?php
 					if (isset($_GET['key'])) {
-						echo "<a href='index.php?page=1&key=".$search."' aria-label='Previous'>";
+						echo "<a href='category.php?page=1&key=".$search."' aria-label='Previous'>";
 					} else {
-						echo "<a href='index.php?page=1' aria-label='Previous'>";
+						echo "<a href='category.php?page=1&cate_id=".$cate_no."' aria-label='Previous'>";
 					}
 				?>
 
@@ -155,18 +167,18 @@ $(document).ready(function(){
 			<li>
 			<?php
 					if (isset($_GET['key'])) {
-						echo "<a href='index.php?page={$i}&key={$search}'>{$i}</a></li>";
+						echo "<a href='category.php?page={$i}&key={$search}'>{$i}</a></li>";
 					} else {
-						echo "<a href='index.php?page={$i}'>{$i}</a></li>";
+						echo "<a href='category.php?page={$i}&cate_id=".$cate_no."'>{$i}</a></li>";
 					}
 				?>
 			<?php } ?>
 			<li>
 			<?php
 					if (isset($_GET['key'])) {
-						echo "<a href='index.php?page={$total_page}&key={$search}' aria-label='Next'>";
+						echo "<a href='category.php?page={$total_page}&key={$search}' aria-label='Next'>";
 					} else {
-						echo "<a href='index.php?page={$total_page}' aria-label='Next'>";
+						echo "<a href='category.php?page={$total_page}&cate_id=".$cate_no."' aria-label='Next'>";
 					}
 				?>
 

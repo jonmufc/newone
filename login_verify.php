@@ -18,10 +18,22 @@
 
 			$user_pic = $_POST["user_pic"];
 			$fullname = $_POST["fullname"];
+			$empn = $_POST["empn"];
+
+			$sql_find = "select empn from tbl_users where empn='".$empn."' and fb_name is null limit 1";
+			//echo $sql_find_pwd;
+			$result = mysqli_query($link,$sql_find);
+
+			if (mysqli_num_rows($result) > 0) {
+				while ($row = mysqli_fetch_array($result)) {
+					$sql_upd = "update tbl_users set fb_name='".$fullname."',fb_pro_img='".$user_pic."' where empn='".$empn."'";
+					$re_upd = mysqli_query($link,$sql_upd);
+				}
+			}
 
 				echo "1"; // 1 คือ login ผ่าน สามารถเข้าสู่ระบบได้
 				$_SESSION['valid_user'] = "1";
-				$_SESSION['empn'] = "";
+				$_SESSION['empn'] = $empn;
 				$_SESSION['user_fullname'] = $fullname;
 				$_SESSION['user_pic'] = $user_pic;
 				$_SESSION['fb'] = "1";

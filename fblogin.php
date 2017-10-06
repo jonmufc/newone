@@ -163,9 +163,14 @@ $(document).ready(function(){
 
       var user_pic = $("#fbprofileimg img").attr("src");
       var fullname = $("#fbname").text();
+		var empn = $("input[name='txt_empn']").val();
+		if (empn == ""){
+			alert("โปรดใส่เลขประจำตัว");
+			return false;
+		}
       //alert(user_pic+" "+fullname);
       //alert(encodeURIComponent(user_pic));
-      var data = "fb=1&user_pic="+encodeURIComponent(user_pic)+"&fullname="+fullname;
+      var data = "fb=1&user_pic="+encodeURIComponent(user_pic)+"&fullname="+fullname+"&empn="+empn;
 
       //alert(data);
 
@@ -208,6 +213,8 @@ $(document).ready(function(){
                   <span>คุณต้องการใช้ระบบด้วย Facebook บัญชีนี้</span><br>
                   <span id="fbprofileimg"></span>&nbsp;<span id="fbname"></span>
                   <br><br>
+						ใส่เลขประจำตัว&nbsp;<input type="text" name="txt_empn" value="" class="form-control" style="text-align:center" />
+						<br><br>
                   <img src="img/fblogin.png" id="fbclick" style="cursor:pointer;" />
                   <!-- ><input type="checkbox" name="cb_reme" value="re1"> Remember Me -->
                   <!-- <a href="forget_login.php" id="link_forget" >[ Forget ]</a> -->

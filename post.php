@@ -27,12 +27,103 @@
 	min-height: 200px;
 }
 
+.post_comment {
+	margin-top : 20px;
+}
+
 </style>
 
 <script type="text/javascript">
 
 $(document).ready(function(){
 
+	$(window).load(function(){
+		var post_id = $("input[name='txt_post_id']").val();
+		//alert(post_id);
+		var data = "post_id="+post_id;
+
+		$.ajax({
+			type		:	"POST",
+			url		:	"cm_feed.php",
+			data		:	data,
+			success	:	function(html) {
+
+							//alert(html);
+							$("#result_add_member").html(html);
+
+							/*var arr_html = html.split("|");
+							if (arr_html[0] != "0") {
+								alert(arr_html[1]);
+								window.location = "user.php";
+							} else {
+								alert(arr_html[1]);
+							}*/
+
+						}
+		});
+	});
+
+	$("#btn_submit_cm").click(function(){
+
+		var txt_cm = $("#txt_comment").val();
+		if (txt_cm == "" ) {
+			alert("กรุณาใส่ข้อคิดเห็นก่อนกดปุ่มครับ");
+			return false;
+		}
+
+		data = $("#frmadd").serialize();
+
+		//data = new FormData($("#frmadd")[0]);
+		//alert(data);
+		//return false;
+
+		//data = data + "&type=add";
+
+			$.ajax({
+				type		:	"POST",
+				url		:	"cm_pro.php",
+				data		:	data,
+				success	:	function(html) {
+
+								//alert(html);
+								//$("#result_add_member").html(html);
+								var post_id = $("input[name='txt_post_id']").val();
+								var data = "post_id="+post_id;
+
+								$.ajax({
+									type		:	"POST",
+									url		:	"cm_feed.php",
+									data		:	data,
+									success	:	function(html) {
+
+													//alert(html);
+													$("#result_add_member").html(html);
+
+													/*var arr_html = html.split("|");
+													if (arr_html[0] != "0") {
+														alert(arr_html[1]);
+														window.location = "user.php";
+													} else {
+														alert(arr_html[1]);
+													}*/
+													$("#txt_comment").val("");
+
+												}
+								});
+
+								/*var arr_html = html.split("|");
+								if (arr_html[0] != "0") {
+									alert(arr_html[1]);
+									window.location = "user.php";
+								} else {
+									alert(arr_html[1]);
+								}*/
+
+							}
+			});
+
+		return false;
+	});
 
 });
 
@@ -108,7 +199,46 @@ $(document).ready(function(){
 				echo "</ul>";
 			echo "</div>";
 		}
+
+		if (isset($_SESSION["valid_user"])) {
+
 		 ?>
+		 <form class="form-horizontal" role="form" id="frmadd" method="POST" >
+			 <div class="post_comment col-md-12 col-sm-12 col-xs-12" >
+				 <h4>แสดงความคิดเห็น</h4>
+				 <div class="row">
+					 <div class="col-md-3 col-sm-3 col-xs-3" style="text-align:right" >
+						 <span>ความเห็น : </span>
+					 </div>
+					 <div class="col-md-9 col-sm-9 col-xs-9" >
+						 <textarea name="txt_comment" id="txt_comment" rows="3" cols="50" class="form-control"></textarea>
+					 </div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+				   <div class="col-md-3 col-sm-3 col-xs-3" style="text-align:right" >
+						<span>ชื่อ : </span>
+				   </div>
+				   <div class="col-md-9 col-sm-9 col-xs-9" >
+						<input type="text" name="txt_name_cm" value="<?php echo $_SESSION["user_fullname"]; ?>" class="form-control" readonly />
+						<input type="hidden" name="txt_empn" value="<?php echo $_SESSION["empn"]; ?>" class="form-control" />
+						<input type="hidden" name="txt_post_id" value="<?php echo $post_id; ?>" class="form-control" />
+				   </div>
+			  </div>
+			  <div class="row" style="margin-top:10px;">
+				  <div class="col-md-3 col-sm-3 col-xs-3" style="text-align:right" >
+					  <span></span>
+				  </div>
+				  <div class="col-md-9 col-sm-9 col-xs-9" >
+					  <button type="button" name="btn_submit_cm" id="btn_submit_cm" class="btn btn-primary">ส่ง</button>
+				  </div>
+			 </div>
+			 </div>
+		 </form>
+		<?php
+		}
+		?>
+		<div id="result_add_member">
+		</div>
 		 <div class="fb-comments" data-href="http://localhost/new/newone/post.php?p=<?php echo	$post_id; ?>" data-numposts="5"></div>
     </div>
 		</div>

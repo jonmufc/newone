@@ -28,7 +28,7 @@
 }
 
 .post_card {
-	height: 400px;
+	height: 350px;
 	margin-bottom : 20px;
 }
 
@@ -101,7 +101,10 @@ $(document).ready(function(){
 
 				<div class="post_card">
 					<a href="post.php?p=<?php echo $row["post_id"]; ?>">
-						<img src="img/download.png" style="width:100%" />
+						<?php
+							$arr_str = explode("&quot;",str_replace("../","",$row["post_desc"]));
+						?>
+						<img src="<?php echo $arr_str[1]; ?>" style="width:100%" />
 					</a>
 					<div class="caption" style="margin-top:7px;">
 						<div class="dv_post_name">
@@ -114,6 +117,7 @@ $(document).ready(function(){
 							<?php echo iconv_substr(strip_tags(htmlspecialchars_decode($row["post_desc"])),0,100, "UTF-8"); ?>...
 							<br><br>
 							 <p><a href="post.php?p=<?php echo $row["post_id"]; ?>"><button class="btn btn-default" type="button">Read More..</button></a></p>
+							 <br><br>
 						</div>
 					</div>
 				</div>

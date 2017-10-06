@@ -2,6 +2,18 @@
 	include("template_head.php");
 
 	//print_r($_SESSION);
+	function DateThai($strDate)
+	{
+	   $strYear = date("Y",strtotime($strDate))+543;
+	   $strMonth= date("n",strtotime($strDate));
+	   $strDay= date("j",strtotime($strDate));
+	   $strHour= date("H",strtotime($strDate));
+	   $strMinute= date("i",strtotime($strDate));
+	   $strSeconds= date("s",strtotime($strDate));
+	   $strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+	   $strMonthThai=$strMonthCut[$strMonth];
+	   return "$strDay $strMonthThai $strYear"." เวลา ".$strHour.":".$strMinute.":".$strSeconds." น.";
+	}
 ?>
 
 <style type="text/css">
@@ -107,7 +119,7 @@
 					<td><div align="center"><?php echo $objResult["QuestionID"];?></div></td>
 					<td><a href="wb_viewboard.php?QuestionID=<?php echo $objResult["QuestionID"];?>"><?php echo $objResult["Question"];?></a></td>
 					<td><?php echo $objResult["Name"];?></td>
-					<td><div align="center"><?php echo $objResult["CreateDate"];?></div></td>
+					<td><div align="center"><?php echo DateThai($objResult["CreateDate"]);?></div></td>
 					<td align="right"><?php echo $objResult["View"];?></td>
 					<td align="right"><?php echo $objResult["Reply"];?></td>
 					<?php
@@ -121,6 +133,10 @@
 							<td style='text-align:right'>
 							<!-- <a href="#" onclick="javascript:void window.open('DelWebboard.php?type=2&qid=<?php //echo $objResult["QuestionID"]; ?>','1389241772131','width=300,height=100,location=no,toolbar=0,menubar=0,location=0,status=0,scrollbars=0,resizable=0,left=0,top=0');return false;">Pop-up Window</a><a href="DelWebboard.php?qid=<?php //echo $objResult["QuestionID"]; ?>"><img src="img/cancel.png" style="width:15px" /></a></td> -->
 							<a href="#" onclick="javascript:void popupwindow('wb_delwebboard.php?type=2&qid=<?php echo $objResult["QuestionID"]; ?>','ลบข้อมูล','300','100'); return false;"><img src="img/cancel.png" style="width:15px" /></a></td>
+							<?php
+						} else {
+							?>
+							<td style='text-align:right'>-</td>
 							<?php
 						}
 					?>
