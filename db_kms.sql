@@ -74,12 +74,30 @@ CREATE TABLE `reply` (
   `CreateDate` datetime NOT NULL,
   `Details` text NOT NULL,
   `Name` varchar(50) NOT NULL,
+  `empn` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`ReplyID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 /*Data for the table `reply` */
 
-insert  into `reply`(`ReplyID`,`QuestionID`,`CreateDate`,`Details`,`Name`) values (00003,00002,'2017-09-21 00:05:13','test','Khunponpun Thongaroon'),(00004,00002,'2017-09-21 00:05:17','test','Khunponpun Thongaroon');
+insert  into `reply`(`ReplyID`,`QuestionID`,`CreateDate`,`Details`,`Name`,`empn`) values (00005,00003,'2017-10-06 01:02:32','ได้ดิ','Khunponpun Thongaroon',NULL),(00006,00003,'2017-10-06 01:02:47','ลองดู','Khunponpun Thongaroon',NULL),(00007,00003,'2017-10-06 01:03:51','ลองดู','Khunponpun Thongaroon',NULL),(00008,00003,'2017-10-06 01:07:16','test','Khunponpun Thongaroon','593403'),(00009,00003,'2017-10-06 01:08:55','test','Khunponpun Thongaroon','593403'),(00010,00003,'2017-10-06 01:09:19','test','Khunponpun Thongaroon','593403'),(00011,00004,'2017-10-06 01:12:40','aaaa','Khunponpun Thongaroon','593403'),(00012,00005,'2017-10-06 15:18:37','มาสิ','Khunponpun Thongaroon','593403');
+
+/*Table structure for table `tbl_comments` */
+
+DROP TABLE IF EXISTS `tbl_comments`;
+
+CREATE TABLE `tbl_comments` (
+  `cm_id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) DEFAULT NULL,
+  `txt_comments` varchar(500) DEFAULT NULL,
+  `empn` varchar(10) DEFAULT NULL,
+  `record_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`cm_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Data for the table `tbl_comments` */
+
+insert  into `tbl_comments`(`cm_id`,`post_id`,`txt_comments`,`empn`,`record_date`) values (1,6,'test','593403',NULL),(2,6,'test2','593403','2017-10-06 14:03:24'),(3,8,'test','593403','2017-10-06 14:06:08'),(4,8,'rrrrrr','593403','2017-10-06 14:06:23'),(5,9,'ดีมากครับ','593403','2017-10-06 14:07:11'),(6,11,'new','593403','2017-10-06 14:11:39');
 
 /*Table structure for table `tbl_file_doc` */
 
@@ -147,12 +165,14 @@ CREATE TABLE `tbl_users` (
   `user_dept` varchar(100) NOT NULL,
   `record_date` datetime NOT NULL,
   `update_date` datetime DEFAULT NULL,
+  `fb_name` varchar(300) DEFAULT NULL,
+  `fb_pro_img` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`empn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tbl_users` */
 
-insert  into `tbl_users`(`empn`,`fullname`,`user_tel`,`user_password`,`user_pic`,`user_dept`,`record_date`,`update_date`) values (593403,'ขุนพลพัน ทองอรุณ','4839','018762697','2.jpg','ชชม.','2017-10-04 22:22:01',NULL);
+insert  into `tbl_users`(`empn`,`fullname`,`user_tel`,`user_password`,`user_pic`,`user_dept`,`record_date`,`update_date`,`fb_name`,`fb_pro_img`) values (593403,'ขุนพลพัน ทองอรุณ','4839','018762697','2.jpg','ชชม.','2017-10-04 22:22:01',NULL,'Khunponpun Thongaroon','https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/21231241_1850217551661089_9020487366037003887_n.jpg?oh=a3002c941ff97fd334637fecb7534c3a&oe=5A84ADD3');
 
 /*Table structure for table `webboard` */
 
@@ -166,12 +186,13 @@ CREATE TABLE `webboard` (
   `Name` varchar(50) NOT NULL,
   `View` int(5) NOT NULL,
   `Reply` int(5) NOT NULL,
+  `empn` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`QuestionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `webboard` */
 
-insert  into `webboard`(`QuestionID`,`CreateDate`,`Question`,`Details`,`Name`,`View`,`Reply`) values (00002,'2017-09-21 00:05:04','test','test','Khunponpun Thongaroon',3,2);
+insert  into `webboard`(`QuestionID`,`CreateDate`,`Question`,`Details`,`Name`,`View`,`Reply`,`empn`) values (00003,'2017-10-06 00:30:47','เริ่มใหม่','ได้ไหม','Khunponpun Thongaroon',65,6,'593403'),(00004,'2017-10-06 01:12:30','NEw','NEW','Khunponpun Thongaroon',2,1,'593403'),(00005,'2017-10-06 15:18:23','New2','New2','Khunponpun Thongaroon',2,1,'593403');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
