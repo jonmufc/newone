@@ -6,7 +6,7 @@ require_once "dbcon.php";
 //return false;
 //$con = mysqli_connect(DBSERVER,DBUSR,DBPWD,DBNAME);
 
-$conn = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
+$link = new mysqli(DBSERVER,DBUSR,DBPWD,DBNAME);
 
 //mysql_select_db(DB, $conn);
 mysqli_query($link,"SET character_set_results=utf8");
@@ -17,7 +17,7 @@ $cate_id = $_GET["id"];
 
 $get_sql = "select * from category where cate_id = ".$cate_id;
 //echo $get_sql;
-$result = mysqli_query($conn,$get_sql);
+$result = mysqli_query($link,$get_sql);
 
 if (mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_array($result)){
@@ -140,7 +140,7 @@ $(document).ready(function(){
 					  <?php
 					 	$get_sql = "select * from category where cate_status = 1 and prim_cate_id = 0";
 					 	//echo $get_sql;
-					 	$result = mysqli_query($conn,$get_sql);
+					 	$result = mysqli_query($link,$get_sql);
 					  ?>
 					 	<select class="form-control" id="prim_cate_id" name="prim_cate_id">
 					 	  <option value="0">------------โปรดเลือกข้อมูล-----------</option>

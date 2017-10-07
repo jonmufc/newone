@@ -38,7 +38,7 @@
 $(document).ready(function(){
 
 	$(window).load(function(){
-		var post_id = $("input[name='txt_post_id']").val();
+		var post_id = $("input[name='txt_post_id2']").val();
 		//alert(post_id);
 		var data = "post_id="+post_id;
 
@@ -168,6 +168,7 @@ $(document).ready(function(){
     }
 
 ?>
+	<input type="hidden" name="txt_post_id2" value="<?php echo $post_id; ?>" class="form-control" />
     <div id="content_navigate">
         <span>Home</span>&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
         <span><a href="category.php?cate_id=<?php echo $post_cate_id; ?>"><?php echo $cate_name; ?></a></span>
@@ -203,6 +204,7 @@ $(document).ready(function(){
 		if (isset($_SESSION["valid_user"])) {
 
 		 ?>
+
 		 <form class="form-horizontal" role="form" id="frmadd" method="POST" >
 			 <div class="post_comment col-md-12 col-sm-12 col-xs-12" >
 				 <h4>แสดงความคิดเห็น</h4>
